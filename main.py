@@ -2,16 +2,7 @@ import asyncio
 import os
 import discord
 from discord.ext import commands
-import sys
-sys.path.append(os.getcwd())
-def load_env_file(filepath):
-    with open(filepath, 'r') as file:
-        for line in file:
-            if line.strip() and not line.startswith("#"):
-                key, value = line.strip().split('=', 1)
-                os.environ[key] = value
 
-load_env_file(".env")
 TOKEN = os.getenv("a")
 
 allowed_mentions = discord.AllowedMentions(everyone=False, roles=False, users=True)
