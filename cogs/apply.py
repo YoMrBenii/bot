@@ -14,7 +14,7 @@ class ModalCog(commands.Cog):
         feedback = TextInput(
             label='Introduce yourself',
             style=discord.TextStyle.long,
-            placeholder='Reason',
+            placeholder='Enter answer',
             required=True,
             max_length=200,
             min_length=20,
@@ -24,7 +24,7 @@ class ModalCog(commands.Cog):
             label='For how long do you plan on staying?',
             style=discord.TextStyle.long,
             required=True,
-            placeholder="Reason",
+            placeholder="Enter answer",
             max_length=100,
             min_length=5,
             )
@@ -40,7 +40,7 @@ class ModalCog(commands.Cog):
                 description=f"**Name:** {real_username}\n**Reason:** {answer}\n**Why:** {answer1}")
 
                 bot = interaction.client
-                channel = bot.get_channel(1088567873590542346)
+                channel = bot.get_channel(1233923949436342412)
 
                 await channel.send(embed=embed)
 
