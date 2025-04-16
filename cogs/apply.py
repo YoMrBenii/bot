@@ -12,12 +12,12 @@ class ModalCog(commands.Cog):
 
     class FeedbackModal(Modal, title='Become staff'):
         feedback = TextInput(
-            label='Why do you wanna be staff?',
+            label='Introduce yourself',
             style=discord.TextStyle.long,
             placeholder='Reason',
             required=True,
             max_length=200,
-            min_length=30,
+            min_length=20,
             )
             
         feedback1 = TextInput(
@@ -53,8 +53,7 @@ class ModalCog(commands.Cog):
                     await interaction.response.send_message(f"Something went wrong: {e}", ephemeral=True)
 
     @commands.command()
-    async def app(self, ctx):
-        await ctx.send("Apply to become staff by pressing the button.")
+    async def staff(self, ctx):
         button = Button(label="Apply", style=discord.ButtonStyle.primary)
         view = View()
         view.add_item(button)
@@ -66,7 +65,7 @@ class ModalCog(commands.Cog):
 
         button.callback = button_callback
 
-        await ctx.send("Click the button to apply:", view=view)
+        await ctx.send("Click the button to apply for staff:", view=view)
         logger.info('Sent message')
 
     @app.error
