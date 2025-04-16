@@ -68,7 +68,7 @@ class ModalCog(commands.Cog):
         await ctx.send("Click the button to apply for staff:", view=view)
         logger.info('Sent message')
 
-    @app.error
+    @staff.error
     async def app_error(self, ctx, error):
         if isinstance(error, commands.MissingAnyRole):
             logger.error(f"{ctx.author} is missing the required role(s). Error: {error}")
