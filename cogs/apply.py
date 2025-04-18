@@ -1,5 +1,7 @@
 import discord
 import logging
+import random
+import string
 from discord.ext import commands
 from discord.ui import Modal, TextInput, Button, View
 
@@ -56,13 +58,18 @@ class ModalCog(commands.Cog):
     class StaffButtonView(View):
         def __init__(self):
             super().__init__(timeout=None)  # Timeout None makes the view persistent
-            self.add_item(Button(label="Apply", style=discord.ButtonStyle.primary, custom_id="persistent_button"))
+            self.add_item(Button(label="Apply", style=discord.ButtonStyle.primary, custom_id=self.generate_custom_id()))
 
-        @discord.ui.button(label="Apply", style=discord.ButtonStyle.primary, custom_id="persistent_button")
+        @discord.ui.button(label="Apply", style=discord.ButtonStyle.primary)
         async def apply_callback(self, interaction: discord.Interaction, button: Button):
             modal = ModalCog.FeedbackModal()
             await interaction.response.send_modal(modal)
             logger.info('Modal sent')
+
+        def generate_custom_id(self):
+            """Generate a unique custom ID for each button."""
+            random_str = ''.join(random.choices(string.ascii_letters + string.digits, k=16))
+            return f"persistent_button_{random_str}"  # Example custom ID: persistent_button_<random_string>
 
     # Command to display the button
     @commands.command()
