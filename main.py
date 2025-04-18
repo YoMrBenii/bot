@@ -25,6 +25,7 @@ async def on_ready():
 
 async def main():
     await load()
+    bot.add_view(ModalCog.StaffButtonView())
     await bot.start(TOKEN)
 
 asyncio.run(main())
