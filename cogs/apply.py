@@ -22,12 +22,24 @@ class FeedbackModal(Modal, title='Become staff'):
     )
 
     async def on_submit(self, interaction: discord.Interaction):
-        # ... (keep your existing submission logic) ...
+        user = interaction.user
+        real_username = user.name
+        try:
+            answer = self.children[0].value
+            answer1 = self.children[1].value
+            embed = discord.Embed(
+                description=f"**Name:** {real_username}\n**Reason:** {answer}\n**Why:** {answer1}")
+
+            channel = interaction.client.get_channel(1233923949436342412)  # Replace with your channel ID
+            await channel.send(embed=embed)
+            await interaction.response.send_message(f"Thanks for your response, {real_username}!", ephemeral=True)
+        except Exception as e:
+            if not interaction.response.is_done():
+                await interaction.response.send_message(f"Something went wrong: {e}", ephemeral=True)
 
 class StaffButtonView(View):
     def __init__(self):
         super().__init__(timeout=None)
-        # Only change: Generate unique custom_id
         custom_id = f"staff_apply_{''.join(random.choices(string.ascii_letters + string.digits, k=10))}"
         self.add_item(Button(
             label="Apply", 
@@ -36,7 +48,6 @@ class StaffButtonView(View):
         ))
 
     async def interaction_check(self, interaction: discord.Interaction):
-        # Handle any button with "staff_apply_" prefix
         if interaction.data['custom_id'].startswith("staff_apply_"):
             await interaction.response.send_modal(FeedbackModal())
             return True
