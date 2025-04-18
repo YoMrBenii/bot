@@ -10,6 +10,7 @@ class ModalCog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    # Feedback modal for users to apply for staff
     class FeedbackModal(Modal, title='Become staff'):
         feedback = TextInput(
             label='Introduce yourself',
@@ -18,8 +19,8 @@ class ModalCog(commands.Cog):
             required=True,
             max_length=200,
             min_length=20,
-            )
-            
+        )
+
         feedback1 = TextInput(
             label='For how long do you plan on staying?',
             style=discord.TextStyle.long,
@@ -27,7 +28,7 @@ class ModalCog(commands.Cog):
             placeholder="Enter answer",
             max_length=100,
             min_length=5,
-            )
+        )
 
         async def on_submit(self, interaction: discord.Interaction):
             user = interaction.user
@@ -37,13 +38,12 @@ class ModalCog(commands.Cog):
                 answer1 = self.children[1].value
                 logger.info(f'Received feedback from {real_username}: {answer}')
                 embed = discord.Embed(
-                description=f"**Name:** {real_username}\n**Reason:** {answer}\n**Why:** {answer1}")
+                    description=f"**Name:** {real_username}\n**Reason:** {answer}\n**Why:** {answer1}")
 
                 bot = interaction.client
-                channel = bot.get_channel(1233923949436342412)
+                channel = bot.get_channel(1233923949436342412)  # Replace with your channel ID
 
                 await channel.send(embed=embed)
-
                 await interaction.response.send_message(f"Thanks for your response, {real_username}!", ephemeral=True)
 
             except Exception as e:
@@ -52,22 +52,26 @@ class ModalCog(commands.Cog):
                 if not interaction.response.is_done():
                     await interaction.response.send_message(f"Something went wrong: {e}", ephemeral=True)
 
-    @commands.command()
-    async def staff(self, ctx):
-        button = Button(label="Apply", style=discord.ButtonStyle.primary)
-        view = View()
-        view.add_item(button)
-        
-        async def button_callback(interaction: discord.Interaction):
-            modal = self.FeedbackModal() 
+    # Persistent button with the callback to open modal
+    class StaffButtonView(View):
+        def __init__(self):
+            super().__init__(timeout=None)  # Timeout None makes the view persistent
+            self.add_item(Button(label="Apply", style=discord.ButtonStyle.primary, custom_id="persistent_button"))
+
+        @discord.ui.button(label="Apply", style=discord.ButtonStyle.primary, custom_id="persistent_button")
+        async def apply_callback(self, interaction: discord.Interaction, button: Button):
+            modal = ModalCog.FeedbackModal()
             await interaction.response.send_modal(modal)
             logger.info('Modal sent')
 
-        button.callback = button_callback
-
+    # Command to display the button
+    @commands.command()
+    async def staff(self, ctx):
+        view = ModalCog.StaffButtonView()
         await ctx.send("Click the button to apply for staff:", view=view)
-        logger.info('Sent message')
+        logger.info('Sent message with apply button')
 
+    # Error handling for the staff command
     @staff.error
     async def app_error(self, ctx, error):
         if isinstance(error, commands.MissingAnyRole):
@@ -77,6 +81,8 @@ class ModalCog(commands.Cog):
             logger.error(f"Unexpected error occurred in app command: {error}")
             await ctx.send("An unexpected error occurred.")
 
+# Register the cog and the persistent view
 async def setup(bot):
     await bot.add_cog(ModalCog(bot))
-    logger.info('ModalCog loaded')
+    bot.add_view(ModalCog.StaffButtonView())  # Registering the view with the persistent button
+    logger.info('ModalCog loaded and persistent view registered')
