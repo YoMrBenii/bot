@@ -23,12 +23,12 @@ class FeedbackModal(Modal, title='Become staff'):
 
     async def on_submit(self, interaction: discord.Interaction):
         user = interaction.user
-        real_username = user.name
+        real_username = user.id
         try:
             answer = self.children[0].value
             answer1 = self.children[1].value
             embed = discord.Embed(
-                description=f"**Name:** {real_username}\n**Reason:** {answer}\n**Why:** {answer1}"
+                description=f"**Name:** <@{real_username}>\n**Reason:** {answer}\n**Why:** {answer1}"
             )
 
             channel = interaction.client.get_channel(1233923949436342412)  # Replace with your channel ID
