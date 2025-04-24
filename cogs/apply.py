@@ -28,7 +28,8 @@ class FeedbackModal(Modal, title='Become staff'):
             answer = self.children[0].value
             answer1 = self.children[1].value
             embed = discord.Embed(
-                description=f"**Name:** {real_username}\n**Reason:** {answer}\n**Why:** {answer1}")
+                description=f"**Name:** {real_username}\n**Reason:** {answer}\n**Why:** {answer1}"
+            )
 
             channel = interaction.client.get_channel(1233923949436342412)  # Replace with your channel ID
             await channel.send(embed=embed)
@@ -49,6 +50,13 @@ class StaffButtonView(View):
 
     async def interaction_check(self, interaction: discord.Interaction):
         if interaction.data['custom_id'].startswith("staff_apply_"):
+            role_id = 1034912236709359677  # Replace with the required role ID
+            user = interaction.user
+            if not any(role.id == role_id for role in user.roles):
+                await interaction.response.send_message(
+                    "You don't have the required role to apply.", ephemeral=True
+                )
+                return False
             await interaction.response.send_modal(FeedbackModal())
             return True
         return False
