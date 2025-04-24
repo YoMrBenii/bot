@@ -69,7 +69,7 @@ class StaffButtonView(View):
             return True
         return False
 
-class ModalCog(commands.Cog):
+class ModalPerm(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.bot.add_view(StaffButtonView())  # Register the view
