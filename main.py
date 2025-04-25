@@ -2,8 +2,13 @@ import asyncio
 import os
 import discord
 from discord.ext import commands
+import sys
 
 TOKEN = os.getenv("a")
+
+print(f"Cog Python executable: {sys.executable}")  # Prints the Python executable path
+print(f"Cog PYTHONPATH: {os.environ.get('PYTHONPATH')}")  # Prints the PYTHONPATH environment variable
+
 
 allowed_mentions = discord.AllowedMentions(everyone=False, roles=False, users=True)
 intents = discord.Intents.all()
