@@ -2,6 +2,11 @@ import os
 import discord
 from discord.ext import commands
 import google.generativeai as genai
+import sys
+
+print(f"Cog Python executable: {sys.executable}")  # Prints the Python executable path
+print(f"Cog PYTHONPATH: {os.environ.get('PYTHONPATH')}")  # Prints the PYTHONPATH environment variable
+
 
 class AICog(commands.Cog):
     def __init__(self, bot):
