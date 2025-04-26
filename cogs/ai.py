@@ -16,7 +16,7 @@ class AICog(commands.Cog):
         if not api_key:
             raise ValueError("GOOGLE_API_KEY environment variable not set")
         genai.configure(api_key=api_key)
-        self.model = genai.GenerativeModel('gemini-1.5-pro-latest')  # Or your preferred model
+        self.model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
     @commands.command(name="ai")
     async def ai_command(self, ctx, *, prompt: str):
