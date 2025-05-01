@@ -4,11 +4,6 @@ from discord.ext import commands
 import google.generativeai as genai
 import time  # For handling rate-limiting retries
 
-def is_in_channel(channel_id):
-    def predicate(ctx):
-        return ctx.channel.id == channel_id
-    return commands.check(predicate)
-
 # Adjustable Parameters
 API_KEY = os.getenv("GOOGLE_API_KEY", "your-api-key-here")  # Replace or ensure it's set as an environment variable
 MODEL_NAME = "gemini-1.5-pro-latest"  # Change this to the model you want to use
@@ -35,7 +30,6 @@ class AICog(commands.Cog):
         self.model = genai.GenerativeModel(MODEL_NAME)
 
     @commands.command(name="ai")
-    @is_in_channel(1108669778383613952)
     async def ai_command(self, ctx, *, prompt: str = None):
         """Generates a response from Generative AI based on the given prompt."""
         if not prompt:
