@@ -9,40 +9,35 @@ def is_in_channel(channel_id):
         return ctx.channel.id == channel_id
     return commands.check(predicate)
 
-# Adjustable Parameters
-API_KEY = os.getenv("GOOGLE_API_KEY", "your-api-key-here")  # Replace or ensure it's set as an environment variable
-MODEL_NAME = "gemini-1.5-pro-latest"  # Change this to the model you want to use
-EMBED_COLOR = discord.Color.blue()  # Customize the embed color
-DEFAULT_PROMPT = "Hello, how can I assist you today?"  # Default fallback prompt
+API_KEY = os.getenv("GOOGLE_API_KEY", "your-api-key-here")
+MODEL_NAME = "gemini-1.5-pro-latest"
+EMBED_COLOR = discord.Color.blue()
+DEFAULT_PROMPT = "Hello, how can I assist you today?"
 
-# Generation Parameters (Less Restrictive)
-TEMPERATURE = 1.0  # Max randomness for highly creative responses
-TOP_P = 1.0  # Max nucleus sampling for diverse responses
-MAX_OUTPUT_TOKENS = 500  # Allow longer responses
-STOP_SEQUENCES = []  # No stop sequences to allow full freedom
-CANDIDATES = 1  # Number of response candidates to generate
-SAFETY_SETTINGS = []  # Remove safety settings for unrestricted responses
-CONTEXT = ""  # Provide additional context for the model to consider
-EXAMPLES = []  # List of example input-output pairs for fine-tuning responses
+TEMPERATURE = 1.0
+TOP_P = 1.0
+MAX_OUTPUT_TOKENS = 500
+STOP_SEQUENCES = []
+CANDIDATES = 1
+SAFETY_SETTINGS = []
+CONTEXT = ""
+EXAMPLES = []
 
 class AICog(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        # Configure Generative AI
         if not API_KEY or API_KEY == "your-api-key-here":
             raise ValueError("GOOGLE_API_KEY is missing or not set properly")
         genai.configure(api_key=API_KEY)
         self.model = genai.GenerativeModel(MODEL_NAME)
 
     @commands.command(name="ai")
-    @is_in_channel(123456789012345678)
+    @is_in_channel(1108669778383613952)
     async def ai_command(self, ctx, *, prompt: str = None):
-        """Generates a response from Generative AI based on the given prompt."""
         if not prompt:
-            prompt = DEFAULT_PROMPT  # Use the default if no prompt is provided
+            prompt = DEFAULT_PROMPT
 
         try:
-            # Generate response using the AI model with advanced parameters
             response = self.model.generate_content(
                 prompt=prompt,
                 temperature=TEMPERATURE,
@@ -55,10 +50,8 @@ class AICog(commands.Cog):
                 examples=EXAMPLES,
             )
 
-            # Fetch the generated text from the response
             generated_text = response.candidates[0]["output"] if response.candidates else "No response generated."
 
-            # Create and send the embed
             embed = discord.Embed(
                 title="AI Response",
                 description=generated_text,
@@ -68,8 +61,7 @@ class AICog(commands.Cog):
             await ctx.send(embed=embed)
 
         except genai.exceptions.RateLimitError as e:
-            # Extract retry information from the exception
-            retry_after = getattr(e, "retry_after", None)  # Check if Retry-After is available
+            retry_after = getattr(e, "retry_after", None)
             if retry_after:
                 await ctx.send(f"Rate limit reached. Please wait {retry_after} seconds before trying again.")
             else:
