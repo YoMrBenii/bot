@@ -5,6 +5,11 @@ import google.generativeai as genai
 import time  # For handling rate-limiting retries
 from .check.utils import is_in_channel
 
+def is_in_channel(channel_id):
+    def predicate(ctx):
+        return ctx.channel.id == channel_id
+    return commands.check(predicate)
+
 # Adjustable Parameters
 API_KEY = os.getenv("GOOGLE_API_KEY", "your-api-key-here")  # Replace or ensure it's set as an environment variable
 MODEL_NAME = "gemini-1.5-pro-latest"  # Change this to the model you want to use
