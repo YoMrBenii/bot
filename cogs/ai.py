@@ -2,8 +2,7 @@ import os
 import discord
 from discord.ext import commands
 import google.generativeai as genai
-import time  # For handling rate-limiting retries
-from .check.utils import is_in_channel
+import time
 
 def is_in_channel(channel_id):
     def predicate(ctx):
