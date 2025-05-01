@@ -30,6 +30,7 @@ class AICog(commands.Cog):
         self.model = genai.GenerativeModel(MODEL_NAME)
 
     @commands.command(name="ai")
+@is_in_channel(123456789012345678)
     async def ai_command(self, ctx, *, prompt: str = None):
         """Generates a response from Generative AI based on the given prompt."""
         if not prompt:
