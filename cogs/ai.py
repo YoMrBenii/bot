@@ -33,7 +33,7 @@ class AICog(commands.Cog):
 
         try:
             # Corrected method call
-            response = genai.generate_text(
+            response = genai.generate_content(
                 model=MODEL_NAME,
                 input_text=prompt,
                 temperature=TEMPERATURE,
