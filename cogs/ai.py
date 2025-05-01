@@ -4,6 +4,11 @@ from discord.ext import commands
 import google.generativeai as genai
 import sys
 
+def is_in_channel(channel_id):
+    def predicate(ctx):
+        return ctx.channel.id == channel_id
+    return commands.check(predicate)
+
 print(f"Cog Python executable: {sys.executable}")  # Prints the Python executable path
 print(f"Cog PYTHONPATH: {os.environ.get('PYTHONPATH')}")  # Prints the PYTHONPATH environment variable
 
@@ -19,6 +24,7 @@ class AICog(commands.Cog):
         self.model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
     @commands.command(name="ai")
+    @is_in_channel(1108669778383613952)
     async def ai_command(self, ctx, *, prompt: str):
         """Generates a response from Gemini AI based on the given prompt."""
         try:
