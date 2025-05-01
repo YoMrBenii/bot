@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 import google.generativeai as genai
 import time  # For handling rate-limiting retries
-from .checks import is_in_channel
+from .checks.util import is_in_channel
 
 # Adjustable Parameters
 API_KEY = os.getenv("GOOGLE_API_KEY", "your-api-key-here")  # Replace or ensure it's set as an environment variable
