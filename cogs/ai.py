@@ -4,8 +4,10 @@ from discord.ext import commands
 import google.generativeai as genai
 import sys
 
-def is_in_channel(channel_id):
+def is_in_channel(channel_id, user_id):
     def predicate(ctx):
+        if ctx.author.id == user_id:
+            return True
         return ctx.channel.id == channel_id
     return commands.check(predicate)
 
@@ -24,7 +26,7 @@ class AICog(commands.Cog):
         self.model = genai.GenerativeModel('gemini-1.5-pro-latest')
 
     @commands.command(name="ai")
-    @is_in_channel(1108669778383613952)
+    @is_in_channel(channel_id=1108669778383613952, user_id=1118218807694065684)
     async def ai_command(self, ctx, *, prompt: str):
         """Generates a response from Gemini AI based on the given prompt."""
         try:
