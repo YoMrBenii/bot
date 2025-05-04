@@ -35,7 +35,7 @@ class Hi(commands.Cog):
 
     @commands.command()
     async def kiss(self, ctx):
-    	a = ["You got slapped 💀", "They leaned into the kiss and yall made out", "You got charged for assault", "They took their clothes off and u had sex", "Yall should make out icl", "i just cummed", "You guys started to have sex and got kids", "THIS IS AMERICA DO WHATEVER THE FUCK YOU WANT 🗣️🗣️🔥🔥🦅🦅"]
+    	a = ["You got slapped 💀", "They leaned into the kiss and yall made out.", "You got charged for assault", "They took their clothes off and u had sex", "Yall should make out icl", "i just cummed", "You guys started to have sex and got kids", "THIS IS AMERICA DO WHATEVER THE FUCK YOU WANT 🗣️🗣️🔥🔥🦅🦅"]
     	b = random.choice(a)
     	mentioned_user = ctx.message.mentions[0]
     	await ctx.send(f" {ctx.author.mention} kissed {mentioned_user.mention} \n{b} ")
