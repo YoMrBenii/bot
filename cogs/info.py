@@ -18,7 +18,7 @@ class Info(commands.Cog):
 		await ctx.send(embed=embed)
 			
 	@commands.command()
-	async def cmdlist(self, ctx):
+	async def cmds(self, ctx):
 		commands = [f"- {command.name}" for command in self.bot.commands]
 		await ctx.send("\n".join(commands))
 		
