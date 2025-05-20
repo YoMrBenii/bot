@@ -12,7 +12,7 @@ class FeedbackModal(Modal, title='Become staff'):
         required=True,
         max_length=200,
     )
-    
+
     feedback1 = TextInput(
         label='For how long do you plan on staying?',
         style=discord.TextStyle.long,
@@ -50,24 +50,6 @@ class StaffButtonView(View):
 
     async def interaction_check(self, interaction: discord.Interaction):
         if interaction.data['custom_id'].startswith("staff_apply_"):
-            allowed_role_ids = {
-                1171118519837007944,
-                1068958822007316610,
-                1071821233911505018,
-                1084558839636049921,
-                1034913629545447494,
-                1034913150597873755,
-                1034912873438253166,
-                1034912719746383973,
-                1034912498912088114,
-                1034912236709359677,
-            }
-            user = interaction.user
-            if not any(role.id in allowed_role_ids for role in user.roles):
-                await interaction.response.send_message(
-                    "You don't have the required role to apply.", ephemeral=True
-                )
-                return False
             await interaction.response.send_modal(FeedbackModal())
             return True
         return False
