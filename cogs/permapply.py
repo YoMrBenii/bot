@@ -42,17 +42,19 @@ class StaffButtonView(View):
         self.add_item(Button(
             label="Apply", 
             style=discord.ButtonStyle.primary, 
-            custom_id="staff_apply"
+            custom_id="staff_apply"  # Static custom_id
         ))
 
-    @discord.ui.button(label="Apply", style=discord.ButtonStyle.primary, custom_id="staff_apply")
-    async def apply_button_callback(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.send_modal(FeedbackModal())
+    async def interaction_check(self, interaction: discord.Interaction):
+        if interaction.data['custom_id'] == "staff_apply":  # Check against the static custom_id
+            await interaction.response.send_modal(FeedbackModal())
+            return True
+        return False
 
 class ModalPerm(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.bot.add_view(StaffButtonView())
+        self.bot.add_view(StaffButtonView())  # Register the view
 
     @commands.command()
     async def permstaff(self, ctx):
