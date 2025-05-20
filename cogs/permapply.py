@@ -42,37 +42,17 @@ class StaffButtonView(View):
         self.add_item(Button(
             label="Apply", 
             style=discord.ButtonStyle.primary, 
-            custom_id="staff_apply"  # Static custom_id
+            custom_id="staff_apply"
         ))
 
-    async def interaction_check(self, interaction: discord.Interaction):
-        if interaction.data['custom_id'] == "staff_apply":  # Check against the static custom_id
-            allowed_role_ids = {
-                1171118519837007944,
-                1068958822007316610,
-                1071821233911505018,
-                1084558839636049921,
-                1034913629545447494,
-                1034913150597873755,
-                1034912873438253166,
-                1034912719746383973,
-                1034912498912088114,
-                1034912236709359677,
-            }
-            user = interaction.user
-            if not any(role.id in allowed_role_ids for role in user.roles):
-                await interaction.response.send_message(
-                    "You don't have the required role to apply.", ephemeral=True
-                )
-                return False
-            await interaction.response.send_modal(FeedbackModal())
-            return True
-        return False
+    @discord.ui.button(label="Apply", style=discord.ButtonStyle.primary, custom_id="staff_apply")
+    async def apply_button_callback(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.send_modal(FeedbackModal())
 
 class ModalPerm(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        self.bot.add_view(StaffButtonView())  # Register the view
+        self.bot.add_view(StaffButtonView())
 
     @commands.command()
     async def permstaff(self, ctx):
