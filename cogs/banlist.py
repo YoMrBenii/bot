@@ -21,8 +21,7 @@ class database(commands.Cog):
         
     @banlist.error
     async def banlist_error(self, ctx, error):
-        await ctx.send(" Something went wrong while fetching the ban list.")
-        await ctx.send(f"[banlist ERROR] {type(error).__name__}: {error}")
+        await ctx.send("Only for beni.")
 
 async def setup(bot):
     await bot.add_cog(database(bot))
