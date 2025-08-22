@@ -67,7 +67,6 @@ class GiveawayView(discord.ui.View):
         )
 
     async def on_timeout(self) -> None:
-        "
         for item in self.children:
             item.disabled = True
 
