@@ -31,7 +31,7 @@ class FeedbackModal(Modal, title='Become staff'):
 
             channel = interaction.client.get_channel(1233923949436342412)
             await channel.send(embed=embed)
-            await interaction.response.send_message(f"Thanks for your response, <@{real_username}>!", ephemeral=True)
+            await interaction.response.send_message(f"Thanks for your response, <@{user.mention}>!", ephemeral=True)
         except Exception as e:
             if not interaction.response.is_done():
                 await interaction.response.send_message(f"Something went wrong: {e}", ephemeral=True)
