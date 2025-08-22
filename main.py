@@ -24,7 +24,11 @@ async def load():
 @bot.event
 async def on_ready():
 	activity = discord.Activity(type=discord.ActivityType.custom, name="I love men")
-	await bot.change_presence(activity=activity)
+ GUILD_ID = 1032670610372968529
+ guild = discord.Object(id=GUILD_ID)
+ await bot.tree.sync()
+ synced = await bot.tree.sync(guild=guild)
+ await bot.change_presence(activity=activity)
 	print("Online")
 
 
