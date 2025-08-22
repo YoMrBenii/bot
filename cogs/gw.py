@@ -40,7 +40,7 @@ class GiveawayView(discord.ui.View):
         self, interaction: discord.Interaction, button: discord.ui.Button
     ):
         member = interaction.user
-        
+
         if self.required_role and self.required_role not in member.roles:
             await interaction.response.send_message(
                 f"You need the {self.required_role.mention} role to join this giveaway.",
@@ -108,9 +108,8 @@ class Giveaway(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-        @app_commands.command(description="Start a giveaway.")
-        
-        @app_commands.describe(
+    @app_commands.command(description="Start a giveaway.")
+    @app_commands.describe(
         prize="What you are giving away",
         duration="When it ends (e.g. 30m, 2h, 1d12h)",
         winners="Number of winners (default = 1)",
@@ -156,6 +155,7 @@ class Giveaway(commands.Cog):
         await interaction.response.send_message(embed=embed, view=view)
 
         view.message = await interaction.original_response()
+
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Giveaway(bot))
