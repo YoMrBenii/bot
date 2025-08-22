@@ -109,7 +109,8 @@ class Giveaway(commands.Cog):
         self.bot = bot
 
         @app_commands.command(description="Start a giveaway.")
-    @app_commands.describe(
+        
+        @app_commands.describe(
         prize="What you are giving away",
         duration="When it ends (e.g. 30m, 2h, 1d12h)",
         winners="Number of winners (default = 1)",
