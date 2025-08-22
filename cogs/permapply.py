@@ -21,7 +21,7 @@ class FeedbackModal(Modal, title='Become staff'):
 
     async def on_submit(self, interaction: discord.Interaction):
         user = interaction.user
-        real_username = user.id
+        real_username = user.username
         try:
             answer = self.children[0].value
             answer1 = self.children[1].value
