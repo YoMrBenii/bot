@@ -9,7 +9,6 @@ TOKEN = os.getenv("a")
 print(f"Cog Python executable: {sys.executable}")  # Prints the Python executable path
 print(f"Cog PYTHONPATH: {os.environ.get('PYTHONPATH')}")  # Prints the PYTHONPATH environment variable
 
-
 allowed_mentions = discord.AllowedMentions(everyone=False, roles=False, users=True)
 intents = discord.Intents.all()
 intents.members = True
@@ -23,15 +22,13 @@ async def load():
 
 @bot.event
 async def on_ready():
-	activity = discord.Activity(type=discord.ActivityType.custom, name="I love men")
+    activity = discord.Activity(type=discord.ActivityType.custom, name="I love men")
     GUILD_ID = 1032670610372968529
     guild = discord.Object(id=GUILD_ID)
     await bot.tree.sync()
     synced = await bot.tree.sync(guild=guild)
-    await
-bot.change_presence(activity=activity)
-	print("Online")
-
+    await bot.change_presence(activity=activity)
+    print("Online")
 
 async def main():
     await load()
