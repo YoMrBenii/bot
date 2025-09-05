@@ -6,11 +6,11 @@ class testing(commands.Cog):
     
 
     @commands.command()
-    async def nigga(self, ctx, arg1: int, arg2: int):
-        if arg2 == None:
+    async def nigga(self, ctx, arg1: int = None, arg2: int = None):
+        if arg2 is None:
             await ctx.send("provide two numbers")
             return
-        if arg2 or arg1 != int:
+        if arg2 is str or arg1 is str:
             await ctx.send("must be a number")
             return
         arg3 = 0
