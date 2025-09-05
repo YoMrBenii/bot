@@ -14,7 +14,7 @@ class testing(commands.Cog):
             await ctx.send("must be a number")
             return
         arg3 = 0
-        arg1 * arg2 = arg3
+        arg3 = arg1 * arg2
         await ctx.send(f"{arg3} niggers")
         
 
