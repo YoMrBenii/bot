@@ -1,2 +1,3 @@
 discord.py
 deep_translator
+firebase_admin
