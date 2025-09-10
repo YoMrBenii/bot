@@ -11,7 +11,7 @@ class wallet(commands.Cog):
         id = ctx.author.id
         wall = db.collection("users").document(id)
         data = wall.get()
-        ctx.send(data["usd"])
+        ctx.send(f"{data["usd"]}")
  
 async def setup(bot):
     await bot.add_cog(wallet(bot))
