@@ -7,11 +7,11 @@ class ServerRoles(commands.Cog):
 		
 	@commands.command()
 	async def guildroles(self, ctx):
-	   	guildroles = [role.name for role in ctx.guild.roles]
-	   	guildroles.reverse()
-	   	guildrole = "\n".join(guildroles)
-	   	embed = discord.Embed(description=guildrole)
-	   	await ctx.send(embed=embed)
+		guildroles = [role.name for role in ctx.guild.roles]
+		guildroles.reverse()
+		guildrole = "\n".join(guildroles)
+		embed = discord.Embed(description=guildrole)
+		await ctx.send(embed=embed)
 
 		
 async def setup(bot):
