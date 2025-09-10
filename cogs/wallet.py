@@ -2,16 +2,23 @@ import discord
 from discord.ext import commands
 from creds import db
 
-class wallet(commands.Cog):
+
+class Wallet(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+
     @commands.command()
     async def wallet(self, ctx):
-        id = ctx.author.id
-        wall = db.collection("users").document(id)
-        data = wall.get()
-        ctx.send(f"{data["usd"]}")
- 
+        user_id = str(ctx.author.id)
+        doc_ref = db.collection("users").document(user_id)
+        snapshot = doc_ref.get()
+        if not snapshot.exists:
+            await ctx.send("No wallet found.")
+            return
+        data = snapshot.to_dict() or {}
+        usd = data.get("usd", 0)
+        await ctx.send(f"{usd}")
+        
 async def setup(bot):
-    await bot.add_cog(wallet(bot))
+    await bot.add_cog(Wallet(bot))
