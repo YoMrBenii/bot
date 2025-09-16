@@ -20,7 +20,7 @@ class Wallet(commands.Cog):
         usd = data.get("usd", 0)
         await ctx.send(f"{usd}")
         
-    @commands.commands()
+    @commands.command()
     async def gm(self, ctx):
         user_id = ctx.author.id
         money = getuservar("usd", user_id)
