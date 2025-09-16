@@ -15,8 +15,13 @@ db = firestore.client()
 
 
 def getuservar(var: str, userid: str):
-    ref = db.reference(f"users/{userid}/{var}")
+    ref = db.collection("users").document(userid)
+
     value = ref.get()
-    if value is None:
+    if value.exists:
+        data = value.to_dict()
+
+        return data.get(var, 0)
+    else:
+        ref.set({})
         return 0
-    return value
