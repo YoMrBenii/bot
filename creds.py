@@ -12,3 +12,11 @@ if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
+
+
+def getuservar(var: str, userid: str):
+    ref = db.reference(f"users/{userid}/{var}")
+    value = ref.get()
+    if value is None:
+        return 0
+    return value
