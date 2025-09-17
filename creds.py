@@ -33,6 +33,6 @@ def setuservar(var: str, userid: str, amt: int = 0):
     value = ref.get()
     
     if value.exists:
-        ref.update({var: firestore.increment(amt)})
+        ref.update({var: firestore.Increment(amt)})
     else:
-        ref.set({var: firestore.increment(amt)})
+        ref.set({var: firestore.Increment(amt)})
