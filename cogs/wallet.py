@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from creds import db, getuservar
+from creds import db, getuservar, setuservar
 
 
 class Wallet(commands.Cog):
@@ -25,6 +25,12 @@ class Wallet(commands.Cog):
         user_id = str(ctx.author.id)
         money = getuservar("usd", user_id)
         await ctx.send(money)
+
+    @commands.command()
+    async def em(self, ctx):
+        userid = str(ctx.author.id)
+        setuservar("usd", userid, 5)
+        await ctx.send("Added 5 USD to your wallet.")
 
     
 async def setup(bot):

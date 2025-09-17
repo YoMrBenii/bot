@@ -15,6 +15,7 @@ db = firestore.client()
 
 
 def getuservar(var: str, userid: str):
+    userid = str(userid)
     ref = db.collection("users").document(userid)
 
     value = ref.get()
@@ -25,3 +26,13 @@ def getuservar(var: str, userid: str):
     else:
         ref.set({})
         return 0
+
+def setuservar(var: str, userid: str, amt: int = 0):
+    userid = str(userid)
+    ref = db.collection("users").document(userid)
+    value = ref.get()
+    
+    if value.exists:
+        ref.update({var: firestore.increment(amt)})
+    else:
+        ref.set({var: firestore.increment(amt)})
