@@ -11,7 +11,7 @@ class addm(commands.Cog):
     async def gm(self, ctx, member: discord.Member = None, amount: int = 0):
         if member is None:
             member = ctx.author
-        if not hasrole(member, 1191804053362061312):
+        if hasrole(member, 1191804053362061312) == True:
             await ctx.send("No perms")
             return
         if amount == 0:
