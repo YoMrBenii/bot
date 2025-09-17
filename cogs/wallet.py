@@ -9,7 +9,7 @@ class Wallet(commands.Cog):
 
 
     @commands.command()
-    async def wallet(self, ctx):
+    async def manualwallet(self, ctx):
         user_id = str(ctx.author.id)
         doc_ref = db.collection("users").document(user_id)
         snapshot = doc_ref.get()
@@ -21,7 +21,7 @@ class Wallet(commands.Cog):
         await ctx.send(f"{usd}")
         
     @commands.command()
-    async def gm(self, ctx):
+    async def wallet(self, ctx):
         user_id = str(ctx.author.id)
         money = getuservar("usd", user_id)
         await ctx.send(money)
