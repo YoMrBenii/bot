@@ -14,8 +14,8 @@ class database(commands.Cog):
         banlist = "\n".join([f"{bn.user}" for bn in bans])
         chunks = [banlist[i:i + MAX_CHARS] for i in range(0, len(banlist), MAX_CHARS)]
         for chunk in chunks:
-        	embed = discord.Embed(description=chunk)
-        	await ctx.send(embed=embed)
+            embed = discord.Embed(description=chunk)
+            await ctx.send(embed=embed)
         banamount = len(bans)
         await ctx.send(banamount)
         
