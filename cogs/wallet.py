@@ -27,7 +27,7 @@ class Wallet(commands.Cog):
         else:
             member = str(member.id)
         money = getuservar("usd", member)
-        await ctx.send(money)
+        await ctx.send(f"<@{ctx.author.id}> has {money:,} dollars.")
 
     @commands.command()
     async def em(self, ctx):
