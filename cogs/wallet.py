@@ -21,9 +21,12 @@ class Wallet(commands.Cog):
         await ctx.send(f"{usd}")
         
     @commands.command()
-    async def wallet(self, ctx):
-        user_id = str(ctx.author.id)
-        money = getuservar("usd", user_id)
+    async def wallet(self, ctx, member: discord.Member = None):
+        if member is None:
+            member = str(ctx.author.id)
+        else:
+            member = str(member.id)
+        money = getuservar("usd", money)
         await ctx.send(money)
 
     @commands.command()
