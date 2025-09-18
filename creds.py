@@ -36,3 +36,12 @@ def setuservar(var: str, userid: str, amt: int = 0):
         ref.update({var: firestore.Increment(amt)})
     else:
         ref.set({var: firestore.Increment(amt)})
+
+def resetuservar(var: str, userid: str):
+    userid = str(userid)
+    ref = db.collection("users").document(userid)
+    value = ref.get()
+    if value.exists:
+        ref.update({var: 0})
+    else:
+        ref.set({var: 0})
