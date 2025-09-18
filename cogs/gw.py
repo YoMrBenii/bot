@@ -1,4 +1,5 @@
 from __future__ import annotations
+import asyncio
 import random
 import re
 from typing import Optional, Set
@@ -6,10 +7,8 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-
 _DURATION_RE = re.compile(r"(?P<value>\d+)(?P<unit>[smhd])", re.I)
 _UNIT_SECONDS = {"s": 1, "m": 60, "h": 3_600, "d": 86_400}
-
 
 def parse_duration(raw: str) -> Optional[int]:
     total = 0
@@ -17,9 +16,7 @@ def parse_duration(raw: str) -> Optional[int]:
         total += int(match["value"]) * _UNIT_SECONDS[match["unit"]]
     return total or None
 
-
 class GiveawayView(discord.ui.View):
-
     def __init__(
         self,
         *,
@@ -30,79 +27,75 @@ class GiveawayView(discord.ui.View):
     ):
         super().__init__(timeout=timeout)
         self.prize: str = prize
-        self.participants: Set[discord.Member] = set()
+        self.participants: Set[int] = set()
         self.message: discord.Message | None = None
         self.required_role: Optional[discord.Role] = required_role
         self.winners: int = winners
+        self._lock = asyncio.Lock()
 
-    @discord.ui.button(label="Join 🎉", style=discord.ButtonStyle.primary)
-    async def join_button(
-        self, interaction: discord.Interaction, button: discord.ui.Button
-    ):
+    @discord.ui.button(label="Join 🎉", style=discord.ButtonStyle.primary, custom_id="giveaway_join")
+    async def join_button(self, interaction: discord.Interaction, button: discord.ui.Button):
         member = interaction.user
-
+        if isinstance(member, discord.User):
+            await interaction.response.send_message("This button must be used in a server.", ephemeral=True)
+            return
         if self.required_role and self.required_role not in member.roles:
             await interaction.response.send_message(
                 f"You need the {self.required_role.mention} role to join this giveaway.",
                 ephemeral=True,
             )
             return
-
-        if member in self.participants:
-            await interaction.response.send_message(
-                "You’re already in the draw.", ephemeral=True
-            )
-            return
-
-        self.participants.add(member)
-
-        embed = self.message.embeds[0]
-        embed.set_field_at(
-            0, name="People joined:", value=str(len(self.participants)), inline=False
-        )
-        await self.message.edit(embed=embed, view=self)
-
-        await interaction.response.send_message(
-            "Entered, good luck! ", ephemeral=True
-        )
+        async with self._lock:
+            if member.id in self.participants:
+                await interaction.response.send_message("You’re already in the draw.", ephemeral=True)
+                return
+            self.participants.add(member.id)
+        await interaction.response.send_message("Entered, good luck!", ephemeral=True)
+        if self.message:
+            base = self.message.embeds[0]
+            embed = discord.Embed(title=base.title, description=base.description, colour=base.colour)
+            people = len(self.participants)
+            embed.add_field(name="People joined:", value=str(people), inline=False)
+            for f in base.fields:
+                if f.name == "Result":
+                    embed.add_field(name=f.name, value=f.value, inline=f.inline)
+            await self.message.edit(embed=embed, view=self)
 
     async def on_timeout(self) -> None:
         for item in self.children:
             item.disabled = True
-
-        embed = self.message.embeds[0]
-
+        if not self.message:
+            self.stop()
+            return
+        base = self.message.embeds[0]
+        embed = discord.Embed(title=base.title, description=base.description, colour=base.colour)
+        people = len(self.participants)
+        embed.add_field(name="People joined:", value=str(people), inline=False)
         if self.participants:
-            num_winners = min(self.winners, len(self.participants))
+            num_winners = min(self.winners, people)
             chosen = random.sample(tuple(self.participants), k=num_winners)
-
+            mentions = ", ".join(f"<@{uid}>" for uid in chosen)
             if num_winners == 1:
-                winner = chosen[0]
-                result = f"**Winner:** {winner.mention}!"
-                win_embed = discord.Embed(
-                    title="🎉 Giveaway Ended 🎉",
-                    description=f"Congratulations {winner.mention}!\nYou won **{self.prize}**",
-                    colour=discord.Colour.green(),
-                )
-                await self.message.channel.send(content=winner.mention, embed=win_embed)
-
-            else:
-                mentions = ", ".join(m.mention for m in chosen)
-                result = f" **Winners ({num_winners}):** {mentions}!"
                 win_embed = discord.Embed(
                     title="🎉 Giveaway Ended 🎉",
                     description=f"Congratulations {mentions}!\nYou won **{self.prize}**",
                     colour=discord.Colour.green(),
                 )
                 await self.message.channel.send(content=mentions, embed=win_embed)
-
+                result = f"**Winner:** {mentions}!"
+            else:
+                win_embed = discord.Embed(
+                    title="🎉 Giveaway Ended 🎉",
+                    description=f"Congratulations {mentions}!\nYou won **{self.prize}**",
+                    colour=discord.Colour.green(),
+                )
+                await self.message.channel.send(content=mentions, embed=win_embed)
+                result = f"**Winners ({num_winners}):** {mentions}!"
         else:
             result = "No one joined. Giveaway cancelled."
-
         embed.add_field(name="Result", value=result, inline=False)
         await self.message.edit(embed=embed, view=self)
         self.stop()
-
 
 class Giveaway(commands.Cog):
     def __init__(self, bot: commands.Bot):
@@ -129,33 +122,20 @@ class Giveaway(commands.Cog):
                 "Invalid duration. Examples: 90s, 30m, 2h, 1d", ephemeral=True
             )
             return
-
         if winners < 1:
             await interaction.response.send_message(
                 "Number of winners must be at least 1.", ephemeral=True
             )
             return
-
         end_time = int(discord.utils.utcnow().timestamp()) + seconds
-
         description = f"**Prize:** {prize}\n**Winners:** {winners}\n**Ends:** <t:{end_time}:R>"
         if required_role:
             description += f"\n**Required Role:** {required_role.mention}"
-
-        embed = discord.Embed(
-            title="Giveaway!",
-            description=description,
-            colour=discord.Colour.blue(),
-        )
+        embed = discord.Embed(title="Giveaway!", description=description, colour=discord.Colour.blue())
         embed.add_field(name="People joined:", value="0", inline=False)
-
-        view = GiveawayView(
-            prize=prize, timeout=seconds, winners=winners, required_role=required_role
-        )
+        view = GiveawayView(prize=prize, timeout=seconds, winners=winners, required_role=required_role)
         await interaction.response.send_message(embed=embed, view=view)
-
         view.message = await interaction.original_response()
-
 
 async def setup(bot: commands.Bot):
     await bot.add_cog(Giveaway(bot))
