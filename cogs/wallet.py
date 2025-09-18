@@ -26,7 +26,7 @@ class Wallet(commands.Cog):
             member = str(ctx.author.id)
         else:
             member = str(member.id)
-        money = getuservar("usd", money)
+        money = getuservar("usd", member)
         await ctx.send(money)
 
     @commands.command()
