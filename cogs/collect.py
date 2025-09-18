@@ -7,12 +7,14 @@ class collect(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @commands.cooldown(2, 10, commands.BucketType.user)
     async def collect(self, ctx):
+        
         member = ctx.author
         roles = [x.name for x in member.roles]
         amount = len(roles)
         mamount = amount*50
-        setuservar("usd", member, mamount)
+        setuservar("usd", member.id, mamount)
         embed = discord.Embed(description=f"<@{member.id}> collected {mamount} from their {amount} roles.",
                               title="Role Collection",
                               colour=000000)
