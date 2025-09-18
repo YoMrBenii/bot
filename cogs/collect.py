@@ -10,8 +10,13 @@ class collect(commands.Cog):
     async def collect(self, ctx):
         member = ctx.author
         roles = [x.name for x in member.roles]
-        amount = str(len(roles))
-        await ctx.send(f"user has {amount} roles")
+        amount = len(roles)
+        mamount = amount*50
+        setuservar("usd", member, mamount)
+        embed = discord.Embed(description=f"<@{member.id}> collected {mamount} from their {amount} roles.",
+                              title="Role Collection",
+                              colour=000000)
+        await ctx.send(embed=embed)
 
 async def setup(bot):
     await bot.add_cog(collect(bot))
