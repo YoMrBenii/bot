@@ -26,8 +26,10 @@ class addm(commands.Cog):
     async def rst(self, ctx, member: discord.Member = None):
         if hasrole(ctx.author, 1191804053362061312) == False:
             await ctx.send("Only meant for Beni")
+            return
         if member is None:
             await ctx.send("Ping a user to reset")
+            return
         member = str(member.id)
         resetuservar("usd", member)
         a = getuservar("usd", member)
