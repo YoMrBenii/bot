@@ -19,3 +19,7 @@ class clansys(commands.Cog):
         else:
             setuserclan(clan, ctx.author.id)
             await ctx.send(f"You were added to {clan}.")
+
+async def setup(bot):
+    await bot.add_cog(clansys(bot))
+    
