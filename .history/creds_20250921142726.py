@@ -57,8 +57,8 @@ def setuserclan(clan: str, userid: str) -> bool:
             "rank": "member",
             "points": 0
         }
-    }, merge=True
-    )
+    })
+    return True
     
 
 def find_user_clan(user_id: str) -> str | False:

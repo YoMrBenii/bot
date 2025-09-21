@@ -52,13 +52,16 @@ def setuserclan(clan: str, userid: str) -> bool:
     userid = str(userid)
     ref = db.collection("clans").document(clan)
     value = ref.get()
-    ref.set({
-        userid: {
-            "rank": "member",
-            "points": 0
-        }
-    }, merge=True
-    )
+    if value.exists:
+        return False
+    else:
+        ref.set({
+            userid: {
+                "rank": "member",
+                "points": 0
+            }
+        })
+        return True
     
 
 def find_user_clan(user_id: str) -> str | False:

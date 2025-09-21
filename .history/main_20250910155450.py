@@ -26,6 +26,7 @@ async def on_ready():
     GUILD_ID = 1032670610372968529
     guild = discord.Object(id=GUILD_ID)
     await bot.tree.sync()
+    synced = await bot.tree.sync(guild=guild)
     await bot.change_presence(activity=activity)
     print("Online")
 
