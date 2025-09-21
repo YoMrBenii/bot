@@ -61,7 +61,7 @@ def setuserclan(clan: str, userid: str) -> bool:
     )
     
 
-def find_user_clan(user_id: str) -> str | False:
+def find_user_clan(user_id: str) -> str | None:
     user_id = str(user_id)
     clans_ref = db.collection("clans")
     clans = clans_ref.stream()
@@ -72,7 +72,7 @@ def find_user_clan(user_id: str) -> str | False:
         if user_id in data:
             return clan.id
 
-    return False
+    return None
 
 def createclan(clanname: str, userid: str):
     pass
