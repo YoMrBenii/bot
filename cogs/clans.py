@@ -6,7 +6,7 @@ class clansys(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    
+    @commands.command()
     async def joinclan(self, ctx, clan: str):
         user = ctx.author
         result = find_user_clan(ctx.author.id)
@@ -22,4 +22,3 @@ class clansys(commands.Cog):
 
 async def setup(bot):
     await bot.add_cog(clansys(bot))
-    
