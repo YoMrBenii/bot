@@ -27,8 +27,9 @@ class clansys(commands.Cog):
     async def createclan(self, ctx, clan: str = None):
         if clan is None:
             await ctx.send("Must mention what the clan name is.")
+            return
         if 2 > len(clan) > 7:
-            ctx.send("The clans name must be between 2 and 6 letters.")
+            await ctx.send("The clans name must be between 2 and 6 letters.")
             return
         b, c = createclan(clan, ctx.author.id)
         if b is False:
