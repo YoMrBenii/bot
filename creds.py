@@ -75,7 +75,26 @@ def find_user_clan(user_id: str) -> str | None:
     return None
 
 def createclan(clanname: str, userid: str):
-    pass
+    if clanexists(clanname) is True:
+        return False, "Clan already exists."
+    if find_user_clan(userid) is not None:
+        return False, "User is already in a clan, if you want to join then leave your old clan."
+    a = getuservar("usd", userid)
+    if a > 10000:
+        setuservar("usd", userid, -10000)
+    else:
+        return False, "You need at least 50k to buy a clan."
+    ref = db.collection("clans").document(clanname)
+    ref.set({
+        userid: {
+            "rank": "leader",
+            "points": 0
+        }
+    }, merge=True
+    )
+    return True, f"Created the clan{clanname}.\nTo view your clan use -clan"
+    
+                
 
 
 def clanexists(clan: str) -> bool:
@@ -85,4 +104,5 @@ def clanexists(clan: str) -> bool:
         if e.id == clan:
             return True
         return False
-    
+
+

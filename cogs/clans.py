@@ -25,12 +25,6 @@ class clansys(commands.Cog):
 
     @commands.command()
     async def createclan(self, ctx, clan: str = None):
-        a = getuservar("usd", ctx.author.id)
-        if a > 10000:
-            setuservar("usd", ctx.author.id, -10000)
-        else:
-            await ctx.send("You need 50k usd to create a clan.")
-            return        
         if clan is None:
             await ctx.send("Must mention what the clan name is.")
         if 2 > len(clan) > 7:
