@@ -24,7 +24,7 @@ class clansys(commands.Cog):
             await ctx.send(f"You were added to {clan}.")
 
     @commands.command()
-    async def _createclan(self, ctx, clan: str = None):
+    async def createclan(self, ctx, clan: str = None):
         if clan is None:
             await ctx.send("Must mention what the clan name is.")
             return
@@ -32,10 +32,12 @@ class clansys(commands.Cog):
             await ctx.send("The clans name must be between 2 and 6 letters.")
             return
         b, c = _createclan(clan, ctx.author.id)
+        print("e")
         if b is False:
             await ctx.send(c)
             return
         else:
+            print("d")
             await ctx.send(c)
 
 
