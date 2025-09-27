@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from creds import db, getuservar, setuservar
+from functions import owneronly
 
 
 class Wallet(commands.Cog):
@@ -31,6 +32,8 @@ class Wallet(commands.Cog):
 
     @commands.command()
     async def em(self, ctx):
+        if owneronly(ctx.author) is False:
+            return await ctx.send("Owner only")
         userid = str(ctx.author.id)
         setuservar("usd", userid, 5)
         await ctx.send("Added 5 USD to your wallet.")
