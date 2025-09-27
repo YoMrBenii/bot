@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from creds import find_user_clan, setuserclan, createclan, clanexists, getuservar, setuservar
+from creds import find_user_clan, setuserclan, _createclan, clanexists, getuservar, setuservar
 
 class clansys(commands.Cog):
     def __init__(self, bot):
@@ -24,14 +24,14 @@ class clansys(commands.Cog):
             await ctx.send(f"You were added to {clan}.")
 
     @commands.command()
-    async def createclan(self, ctx, clan: str = None):
+    async def _createclan(self, ctx, clan: str = None):
         if clan is None:
             await ctx.send("Must mention what the clan name is.")
             return
-        if 2 > len(clan) > 7:
+        if 2 > len(clan) or len(clan) > 7:
             await ctx.send("The clans name must be between 2 and 6 letters.")
             return
-        b, c = createclan(clan, ctx.author.id)
+        b, c = _createclan(clan, ctx.author.id)
         if b is False:
             await ctx.send(c)
             return
