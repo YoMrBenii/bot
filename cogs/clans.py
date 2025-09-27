@@ -1,13 +1,16 @@
 import discord
 from discord.ext import commands
-from creds import find_user_clan, setuserclan, createclan, clanexists
+from creds import find_user_clan, setuserclan, createclan, clanexists, getuservar, setuservar
 
 class clansys(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command()
-    async def joinclan(self, ctx, clan: str):
+    async def joinclan(self, ctx, clan: str = None):
+        if clan is None:
+            await ctx.send("Must name the clan you want to join.")
+            return
         user = ctx.author
         result = find_user_clan(ctx.author.id)
         if not clanexists(clan):
@@ -19,6 +22,27 @@ class clansys(commands.Cog):
         else:
             setuserclan(clan, ctx.author.id)
             await ctx.send(f"You were added to {clan}.")
+
+    @commands.command()
+    async def createclan(self, ctx, clan: str = None):
+        a = getuservar("usd", ctx.author.id)
+        if a > 10000:
+            setuservar("usd", ctx.author.id, -10000)
+        else:
+            await ctx.send("You need 50k usd to create a clan.")
+            return        
+        if clan is None:
+            await ctx.send("Must mention what the clan name is.")
+        if 2 > len(clan) > 7:
+            ctx.send("The clans name must be between 2 and 6 letters.")
+            return
+        b, c = createclan(clan, ctx.author.id)
+        if b is False:
+            await ctx.send(c)
+            return
+        else:
+            await ctx.send(c)
+
 
 async def setup(bot):
     await bot.add_cog(clansys(bot))
