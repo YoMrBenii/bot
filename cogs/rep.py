@@ -20,5 +20,4 @@ class reps(commands.Cog):
         await ctx.send(embed=embed)
 
 async def setup(bot):
-    pass
     await bot.add_cog(reps(bot))
