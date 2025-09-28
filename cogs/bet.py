@@ -8,13 +8,14 @@ class betting(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    async def bet(self, ctx, num: int = None):
+    async def bet(self, ctx, num: str = None):
         if num is None:
             await ctx.send("Must specify how much you want to bet.")
             return
-        if not isinstance(num, int):
-            await ctx.send("Must be a number")
+        if not num.isdigit():
+            await ctx.send("Must be a valid number")
             return
+        num = int(num)
         if num < 1 or num >= 100000:
             await ctx.send("Cant bet with more than 100,000 or less than 1.")
             return
@@ -25,6 +26,7 @@ class betting(commands.Cog):
         values = [-0.5, -0.4, -0.3 , -0.2, -0.1, 0.1, 0.2, 0.3, 0.4, 0.5]
         endvalue = choice(values)
         transaction = num * endvalue
+        transaction = int(transaction)
         setuservar("usd", ctx.author.id, transaction)
         b = getuservar("usd", ctx.author.id)
         if transaction > 0:
