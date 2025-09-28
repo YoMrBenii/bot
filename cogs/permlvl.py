@@ -3,7 +3,7 @@ from discord.ext import commands
 from creds import *
 
 class perms(commands.Cog):
-    async def __init__(self, bot):
+    def __init__(self, bot):
         self.bot = bot
     
 
