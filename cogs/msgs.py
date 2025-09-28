@@ -13,7 +13,6 @@ class msgcounting(commands.Cog):
         author = message.author
 
         self.bot.msgs[message.author.id] += 1
-        await self.bot.process_commands(message)
 
     @commands.command()
     async def msgs(self, ctx, member: discord.Member = None):
