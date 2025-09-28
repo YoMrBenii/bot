@@ -9,12 +9,12 @@ class perms(commands.Cog):
 
     @commands.command()
     async def permlvl(self, ctx, member: discord.Member = None, amt: int = None):
-        a = getuservar("permlvl", member.id)
-        if a < 3:
-            await ctx.send("no perms, but have perm level 3.")
-            return
         if member is None or amt is None:
             await ctx.send("Must ping a user and specify which perms.")
+            return
+        a = getuservar("permlvl", member.id)
+        if a <= 3:
+            await ctx.send("no perms, must have perm level 3.")
             return
         changeuservar("permlvl", member.id, amt)
         await ctx.send(f"Gave {member.name} perm level {amt}")
