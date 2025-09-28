@@ -26,6 +26,7 @@ class msgcounting(commands.Cog):
         for authorid, count in self.bot.msgs.items():
             doc_ref = ref.document(str(authorid))
             batch.set(doc_ref, {"messages": firestore.Increment(count)}, merge=True)
+        batch.commit()
         
 
 
