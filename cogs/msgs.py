@@ -13,6 +13,9 @@ class msgcounting(commands.Cog):
         author = message.author
 
         self.bot.msgs[message.author.id] += 1
+        if self.bot.msgs[message.author.id] % 10:
+            await message.channel.send(f"{message.author.name} has reached {self.bot.msgs[message.author.id]} messages.")
+
 
     @commands.command()
     async def msgs(self, ctx, member: discord.Member = None):
