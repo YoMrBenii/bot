@@ -18,3 +18,6 @@ class perms(commands.Cog):
             return
         changeuservar("permlvl", member.id, amt)
         await ctx.send(f"Gave {member.name} perm level {amt}")
+
+async def setup(bot):
+    await bot.add_cog(perms(bot))
