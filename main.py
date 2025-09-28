@@ -4,7 +4,7 @@ import discord
 from discord.ext import commands
 import sys
 from collections import defaultdict
-from firebase_admin import db
+from creds import db
 
 TOKEN = os.getenv("a")
 
@@ -23,6 +23,7 @@ async def load():
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py') and filename != '__init__.py':
             await bot.load_extension(f'cogs.{filename[:-3]}')
+            await bot.load_extension("cogs.msgs", extras={"db": db})
 
 @bot.event
 async def on_ready():
@@ -31,8 +32,6 @@ async def on_ready():
     guild = discord.Object(id=GUILD_ID)
     await bot.tree.sync()
     await bot.change_presence(activity=activity)
-    print("Online")
-    await bot.load_extension("cogs.msgs", extras={"db": db})
 
 
 async def main():
