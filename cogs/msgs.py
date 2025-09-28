@@ -41,5 +41,5 @@ class msgcounting(commands.Cog):
 
     
 
-async def setup(bot, extras):
-    await bot.add_cog(msgcounting(bot, extras["db"]))
+async def setup(bot):
+    await bot.add_cog(msgcounting(bot, bot.db))
