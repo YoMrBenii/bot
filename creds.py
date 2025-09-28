@@ -74,7 +74,7 @@ def find_user_clan(user_id: str) -> str | None:
 
     return None
 
-def _createclan(clanname: str, userid: str):
+def ccreateclan(clanname: str, userid: str):
     if clanexists(clanname) is True:
         return False, "Clan already exists."
     if find_user_clan(userid) is not None:

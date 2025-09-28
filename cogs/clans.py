@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from creds import find_user_clan, setuserclan, _createclan, clanexists, getuservar, setuservar
+from creds import find_user_clan, setuserclan, ccreateclan, clanexists, getuservar, setuservar
 
 class clansys(commands.Cog):
     def __init__(self, bot):
@@ -31,7 +31,7 @@ class clansys(commands.Cog):
         if 2 > len(clan) or len(clan) > 7:
             await ctx.send("The clans name must be between 2 and 6 letters.")
             return
-        b, c = _createclan(clan, ctx.author.id)
+        b, c = ccreateclan(clan, ctx.author.id)
         print("e")
         if b is False:
             await ctx.send(c)
