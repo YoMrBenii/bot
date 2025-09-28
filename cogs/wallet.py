@@ -33,7 +33,7 @@ class Wallet(commands.Cog):
         embed = discord.Embed(description=f"<@{member}> has {money:,} dollars.{permtext}",
                               title=f"{member}s wallet",
                               colour=000000)
-        ctx.send(embed=embed)
+        await ctx.send(embed=embed)
 
     @commands.command()
     async def em(self, ctx):
