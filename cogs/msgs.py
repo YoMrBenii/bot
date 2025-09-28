@@ -12,14 +12,14 @@ class msgcounting(commands.Cog):
             return
         author = message.author
 
-        self.bot.msgs(message.author.id) += 1
+        self.bot.msgs[message.author.id] += 1
         await self.bot.process_commands(message)
 
     @commands.command()
     async def msgs(self, ctx, member: discord.Member = None):
         if member is None:
             member = ctx.author
-        a = self.bot.msgs(member.id)
+        a = self.bot.msgs[member.id]
         await ctx.send(f"{member.name} has {a} messages.")
 
     
