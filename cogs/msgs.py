@@ -23,13 +23,10 @@ class msgcounting(commands.Cog):
     def cog_unload(self):
         batch = self.db.batch()
         ref = self.db.collection("users")
-        for authorid, count in self.bot.msgs():
+        for authorid, count in self.bot.msgs.items():
             doc_ref = ref.document(str(authorid))
             batch.set(doc_ref, {"messages": firestore.Increment(count)}, merge=True)
         
-
-
-
 
 
     @commands.command()
