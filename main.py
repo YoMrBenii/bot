@@ -4,11 +4,13 @@ import discord
 from discord.ext import commands
 import sys
 from collections import defaultdict
+from firebase_admin import db
 
 TOKEN = os.getenv("a")
 
-print(f"Cog Python executable: {sys.executable}")  # Prints the Python executable path
-print(f"Cog PYTHONPATH: {os.environ.get('PYTHONPATH')}")  # Prints the PYTHONPATH environment variable
+print(f"Cog Python executable: {sys.executable}")
+print(f"Cog PYTHONPATH: {os.environ.get('PYTHONPATH')}")
+
 
 allowed_mentions = discord.AllowedMentions(everyone=False, roles=False, users=True)
 intents = discord.Intents.all()
@@ -30,6 +32,8 @@ async def on_ready():
     await bot.tree.sync()
     await bot.change_presence(activity=activity)
     print("Online")
+    await bot.load_extension("cogs.msgs", extras={"db": db})
+
 
 async def main():
     await load()
