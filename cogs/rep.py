@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from creds import *
 class reps(commands.Cog):
-    async def __init__(self, bot):
+    def __init__(self, bot):
         self.bot = bot
 
     @commands.command()
