@@ -3,6 +3,7 @@ import os
 import discord
 from discord.ext import commands
 import sys
+from collections import defaultdict
 
 TOKEN = os.getenv("a")
 
@@ -14,6 +15,7 @@ intents = discord.Intents.all()
 intents.members = True
 intents.messages = True
 bot = commands.Bot(command_prefix="-", intents=intents, help_command=None, allowed_mentions=allowed_mentions)
+bot.msgs = defaultdict(int)
 
 async def load():
     for filename in os.listdir('./cogs'):
