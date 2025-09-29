@@ -7,7 +7,7 @@ class onStart(commands.Cog):
 		
 	@commands.Cog.listener()
 	async def on_ready(self):
-		a = self.bot.get_channel(1108669775099461633)
+		a = self.bot.get_channel(1147929783968223233)
 		await a.send("Bot online")
 		
 async def setup(bot):
