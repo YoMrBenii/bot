@@ -13,7 +13,7 @@ class rap(commands.Cog):
             await ctx.send("ping the user you want to rape by pinging them")
             return
         a = ["ha that was fun", "i love raping men"]
-        b = choice.a
+        b = choice(a)
         await ctx.send(f"someone raped {member.mention}\n{b}")
         
 async def setup(bot):
