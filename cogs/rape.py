@@ -8,7 +8,7 @@ class rap(commands.Cog):
 
     @commands.command()
     async def rape(self, ctx, member: discord.Member = None):
-        await ctx.message.delete
+        await ctx.message.delete()
         if member is None:
             await ctx.send("ping the user you want to rape by pinging them")
             return
