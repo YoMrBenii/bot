@@ -10,4 +10,6 @@ class loa(commands.Cog):
         if days is None:
             await ctx.send("Name how many days your going to be gone for.")
             days = days * 86400
-            
+
+async def setup(bot):
+    await bot.add_cog(loa(bot))
