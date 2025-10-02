@@ -12,7 +12,7 @@ class Wallet(commands.Cog):
     @commands.command()
     async def manualwallet(self, ctx):
         user_id = str(ctx.author.id)
-        doc_ref = db.collection("users").document(user_id)
+        doc_ref = db2.collection("users").document(user_id)
         snapshot = doc_ref.get()
         if not snapshot.exists:
             await ctx.send("No wallet found.")
