@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from creds import db, getuservar, setuservar
+from creds import db2, getuservar, setuservar
 from functions import owneronly
 
 

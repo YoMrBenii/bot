@@ -7,9 +7,9 @@ import signal
 
 
 class msgcounting(commands.Cog):
-    def __init__(self, bot, db):
+    def __init__(self, bot, db2):
         self.bot = bot
-        self.db = db
+        self.db2 = db2
 
         self.auto_flush.start()
 
@@ -70,4 +70,4 @@ class msgcounting(commands.Cog):
 
 
 async def setup(bot):
-    await bot.add_cog(msgcounting(bot, bot.db))
+    await bot.add_cog(msgcounting(bot, bot.db2))

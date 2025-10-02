@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from mongo import db, getuservar, setuservar
+from mongo import getuservar, setuservar
 
 class collect(commands.Cog):
     def __init__(self, bot):
