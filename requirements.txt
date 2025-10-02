@@ -1,3 +1,5 @@
 discord.py
 deep_translator
 firebase_admin
+pymongo[srv]
+dnspython
