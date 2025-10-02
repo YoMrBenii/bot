@@ -13,7 +13,7 @@ else:
 if not firebase_admin._apps:
     firebase_admin.initialize_app(cred)
 
-db = firestore.client()
+db2 = firestore.client()
 
 
 def getuservar(var: str, userid: str):
@@ -38,6 +38,19 @@ def setuservar(var: str, userid: str, amt: int = 0):
         ref.update({var: firestore.Increment(amt)})
     else:
         ref.set({var: firestore.Increment(amt)})
+
+
+def changeuservar(var: str, userid: str, amt: int = 0):
+    userid = str(userid)
+    ref = db.collection("users").document(userid)
+    value = ref.get()
+    
+    if value.exists:
+        ref.update({var: amt})
+    else:
+        ref.set({var: amt})
+
+
 
 def resetuservar(var: str, userid: str):
     userid = str(userid)
