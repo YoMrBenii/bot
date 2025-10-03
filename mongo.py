@@ -22,7 +22,7 @@ def setuservar(var: str, userid: str, amt: int):
         upsert=True
     )
 
-def changeuservar(var: str,  userid: str, amt: int):
+def changeuservar(var: str,  userid: str, amt):
     userid = str(userid)
     db.users.update_one(
         {"_id": userid},
@@ -92,9 +92,14 @@ def setuserclan(clan: str, userid: str) -> str:
     return f"<@{userid}> joined {clan}"
 
 def lb(var: str, amt: int):
+    a = ""
     top = db.users.find().sort(var, -1).limit(amt)
     for rank, user in enumerate(top, start=1):
-        a += f"#{rank} - {user} - {user[var]}\n"
+        user = user.get("username", "Unknown")
+        value = user.get(var, 0)
+        
+
+        a += f"#{rank} - {user} - {value}\n"
     return a
 
 

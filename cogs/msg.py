@@ -11,6 +11,7 @@ class messages(commands.Cog):
         if message.author.bot:
             return
         setuservar("messages", message.author.id, 1)
+        changeuservar("username", message.author.id, message.author.user)
 
     @commands.command()
     async def messages(self, ctx, member: discord.Member = None):
@@ -18,7 +19,7 @@ class messages(commands.Cog):
             member = ctx.author
         a = getuservar("messages", member.id)
         b = getlbspot("messages", member.id)
-        embed = discord.Embed(description=f"<@{ctx.author.id}> has {a} messages since last saturday.\nYour top {b}")
+        embed = discord.Embed(description=f"<@{member.id}> has {a} messages since last saturday.\nYour top {b}")
         await ctx.send(embed=embed)
 
     @commands.command()
