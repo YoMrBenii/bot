@@ -7,9 +7,10 @@ class leaderboards(commands.Cog):
 
     @commands.group()
     async def lb(self, ctx):
-        a = lb("usd", 20)
-        embed = discord.Embed(description=a, title="Money Leaderboard", colour=0xa3a2ff)
-        await ctx.send(embed=embed)
+        if ctx.invoked_subcommand is None:
+            a = lb("usd", 20)
+            embed = discord.Embed(description=a, title="Money Leaderboard", colour=0xa3a2ff)
+            await ctx.send(embed=embed)
 
     @lb.command()
     async def rep(self, ctx):
