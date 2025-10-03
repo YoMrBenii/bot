@@ -6,6 +6,7 @@ from discord.ext import commands
 import sys
 from collections import defaultdict
 from creds import db2
+from mongo import db
 
 TOKEN = os.getenv("a")
 
@@ -20,6 +21,7 @@ intents.messages = True
 bot = commands.Bot(command_prefix="-", intents=intents, help_command=None, allowed_mentions=allowed_mentions)
 bot.msgs = defaultdict(int)
 bot.db2 = db2 # type: ignore
+bot.db = db
 async def load():
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py') and filename != '__init__.py':

@@ -17,8 +17,19 @@ class messages(commands.Cog):
         if not member:
             member = ctx.author
         a = getuservar("messages", member.id)
-        embed = discord.Embed(description=f"{ctx.author.id} has {a} messages since last saturday")
+        b = getlbspot("messages", member.id)
+        embed = discord.Embed(description=f"<@{ctx.author.id}> has {a} messages since last saturday.\nYour top {b}")
+        await ctx.send(embed=embed)
+
+    @commands.command()
+    async def top(self, ctx):
+        a = lb("messages", 20)
+        embed = discord.Embed(description=a)
         await ctx.send(embed=embed)
         
+
+        
+
+
 async def setup(bot):
     await bot.add_cog(messages(bot))

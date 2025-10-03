@@ -90,3 +90,19 @@ def setuserclan(clan: str, userid: str) -> str:
         upsert=True
     )
     return f"<@{userid}> joined {clan}"
+
+def lb(var: str, amt: int):
+    top = db.users.find().sort(var, -1).limit(amt)
+    for rank, user in enumerate(top, start=1):
+        a += f"#{rank} - {user} - {user[var]}\n"
+    return a
+
+
+def getlbspot(var: str, userid: str):
+    userid = str(userid)
+    user = db.users.find_one(
+        {"_id": userid}
+    )
+    rank = db.users.count_documents(
+        {var: {"$gt": user[var]}}) + 1
+    return rank
