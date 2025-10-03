@@ -50,6 +50,7 @@ def ccreateclan(clanname: str, userid: str):
         {"$push": {"members": {"userid": userid, "rank": "Owner", "points": 0}}},
         upsert=True
     )
+    return f"You created the clan {clanname}, to view your clan use -clan"
 
 def userinclan(userid: str) -> str | None:
     clanfind = db.clans.find_one({
