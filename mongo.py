@@ -14,9 +14,7 @@ try:
 except Exception as e:
     print(f"[Mongo] ping FAILED: {e!r}")
 
-def setuservar(var: str, userid: str, amt: str):
-    if amt.isdigit():
-        amt = int(amt)
+def setuservar(var: str, userid: str, amt: int):
     userid = str(userid)
     db.users.update_one(
         {"_id": userid},
