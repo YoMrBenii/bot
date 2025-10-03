@@ -11,7 +11,7 @@ class messages(commands.Cog):
         if message.author.bot:
             return
         setuservar("messages", message.author.id, 1)
-        changeuservar("username", message.author.id, message.author.user)
+        changeuservar("username", message.author.id, message.author.name)
 
     @commands.command()
     async def messages(self, ctx, member: discord.Member = None):
