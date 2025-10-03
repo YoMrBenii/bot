@@ -18,7 +18,6 @@ class addm(commands.Cog):
             await ctx.send("give a value")
             return
         setuservar("usd", member.id, amount)
-        await ctx.send(f"gave <@{member.id}> {amount} usd.")
         money = getuservar("usd", member.id)
         await ctx.send(f"Added {amount} usd to <@{member.id}>. New balance: {money} usd.")
 
