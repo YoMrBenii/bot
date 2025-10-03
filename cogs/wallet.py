@@ -13,16 +13,14 @@ class Wallet(commands.Cog):
     async def wallet(self, ctx, member: discord.Member = None):
         if member is None:
             member = str(ctx.author.id)
-            memname = str(ctx.author.name)
-        else:
-            member = str(member.id)
-            memname = str(member.name)
-        money = getuservar("usd", member)
-        permlvl = getuservar("permlvl", member)
-        lbspot = "\nRank: " + str(getlbspot("usd", member))
-        rep = "\nRep: " + str(getuservar("rep", member))
+        memberid = str(member.id)
+        memname = member.name
+        money = getuservar("usd", memberid)
+        permlvl = getuservar("permlvl", memberid)
+        lbspot = "\nRank: " + str(getlbspot("usd", memberid))
+        rep = "\nRep: " + str(getuservar("rep", memberid))
         permtext = f"\nPermlvl: {permlvl}" if permlvl > 0 else ""
-        embed = discord.Embed(description=f"<@{member}> has {round(money):,} dollars.{lbspot}{rep}{permtext}",
+        embed = discord.Embed(description=f"<@{memberid}> has {round(money):,} dollars.{lbspot}{rep}{permtext}",
                               title=f"{memname}s wallet",
                               colour=0x000000)
         await ctx.send(embed=embed)
