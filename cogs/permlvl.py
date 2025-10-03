@@ -16,7 +16,7 @@ class perms(commands.Cog):
         try:
             a = getuservar("permlvl", ctx.author.id)
         except Exception as e:
-        await ctx.send(e)
+            await ctx.send(e)
         await ctx.send(a)
         await ctx.send("1")
         if a <= 3:
