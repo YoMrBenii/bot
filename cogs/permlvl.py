@@ -19,7 +19,7 @@ class perms(commands.Cog):
             await ctx.send(e)
         await ctx.send(a)
         await ctx.send("1")
-        if a <= 3:
+        if a < 3:
             await ctx.send("no perms, must have perm level 3.")
             return
         await ctx.send("2")
