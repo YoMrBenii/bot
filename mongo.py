@@ -22,9 +22,7 @@ def setuservar(var: str, userid: str, amt: int):
         upsert=True
     )
 
-def changeuservar(var: str,  userid: str, amt: str):
-    if amt.isdigit():
-        amt = int(amt)
+def changeuservar(var: str,  userid: str, amt: int):
     userid = str(userid)
     db.users.update(
         {"_id": userid},
