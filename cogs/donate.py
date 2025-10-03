@@ -24,6 +24,7 @@ class donate(commands.Cog):
         if amount > a:
             await ctx.send("You cant donate more than you have")
         setuservar("usd", user.id, amount)
+        setuservar("usd", ctx.author.id, -amount)
         embed = discord.Embed(description=f"{ctx.author.name} donated {amount} to <@{user.id}>.", title="Donation", color=0x39f69b)
         await ctx.send(embed=embed)
         
