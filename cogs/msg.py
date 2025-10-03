@@ -20,3 +20,5 @@ class messages(commands.Cog):
         embed = discord.Embed(description=f"{ctx.author.id} has {a} messages since last saturday")
         await ctx.send(embed=embed)
         
+async def setup(bot):
+    await bot.add_cog(messages(bot))
