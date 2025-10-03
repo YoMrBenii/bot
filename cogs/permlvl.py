@@ -13,7 +13,10 @@ class perms(commands.Cog):
             await ctx.send("Must ping a user and specify which perms.")
             return
         await ctx.send("3")
-        a = getuservar("permlvl", ctx.author.id)
+        try:
+            a = getuservar("permlvl", ctx.author.id)
+        except Exception as e:
+        await ctx.send(e)
         await ctx.send(a)
         await ctx.send("1")
         if a <= 3:
