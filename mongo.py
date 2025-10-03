@@ -26,7 +26,7 @@ def changeuservar(var: str,  userid: str, amt: int):
     userid = str(userid)
     db.users.update(
         {"_id": userid},
-        {var: amt},
+        {"$set": {var: amt}},
         upsert=True
     )
 
