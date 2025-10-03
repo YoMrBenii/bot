@@ -13,7 +13,7 @@ class perms(commands.Cog):
             await ctx.send("Must ping a user and specify which perms.")
             return
         a = getuservar("permlvl", member.id)
-        if a is None or a <= 3:
+        if a <= 3:
             await ctx.send("no perms, must have perm level 3.")
             return
         changeuservar("permlvl", member.id, amt)
