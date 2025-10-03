@@ -27,10 +27,7 @@ class messages(commands.Cog):
 
     @commands.command()
     async def top(self, ctx):
-        try:
-            a = lb("messages", 20)
-        except Exception as e:
-            await ctx.send(e)
+        a = mlb("messages", 20)
         embed = discord.Embed(description=a, title="Top messages", colour=0xa3a2ff)
         await ctx.send(embed=embed)
 

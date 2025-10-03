@@ -91,8 +91,8 @@ def setuserclan(clan: str, userid: str) -> str:
     )
     return f"<@{userid}> joined {clan}"
 
-def lb(var: str, amt: int):
-    a = "**Weekly ranking\n**"
+def mlb(var: str, amt: int):
+    a = "**Weekly rankings**"
     top = db.users.find().sort(var, -1).limit(amt)
     for rank, user in enumerate(top, start=1):
         username = user.get("username", "Unknown")
@@ -102,6 +102,16 @@ def lb(var: str, amt: int):
         a += f"#{rank} - {username} - {value}\n"
     return a
 
+def lb(var: str, amt: int):
+    a = ""
+    top = db.users.find().sort(var, -1).limit(amt)
+    for rank, user in enumerate(top, start=1):
+        username = user.get("username", "Unknown")
+        value = user.get(var, 0)
+        
+
+        a += f"#{rank} - {username} - {value}\n"
+    return a
 
 def getlbspot(var: str, userid: str):
     userid = str(userid)
