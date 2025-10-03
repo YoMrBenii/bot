@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from creds import db2, getuservar, setuservar, resetuservar
+from mongo import getuservar, setuservar, resetuservar
 from functions import hasrole
 
 class addm(commands.Cog):
