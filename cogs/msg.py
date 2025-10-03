@@ -31,7 +31,7 @@ class messages(commands.Cog):
             a = lb("messages", 20)
         except Exception as e:
             await ctx.send(e)
-        embed = discord.Embed(description=a)
+        embed = discord.Embed(description=a title="Top messages")
         await ctx.send(embed=embed)
 
         
