@@ -23,13 +23,13 @@ class messages(commands.Cog):
 
     @commands.command()
     async def top(self, ctx):
-        a = lb("messages", 20)
+        try:
+            a = lb("messages", 20)
+        except Exception as e:
+            await ctx.send(e)
         embed = discord.Embed(description=a)
         await ctx.send(embed=embed)
         
-
-        
-
 
 async def setup(bot):
     await bot.add_cog(messages(bot))
