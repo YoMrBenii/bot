@@ -22,7 +22,7 @@ class messages(commands.Cog):
             member = ctx.author
         a = getuservar("messages", member.id)
         b = getlbspot("messages", member.id)
-        embed = discord.Embed(description=f"<@{member.id}> has {a} messages since last saturday.\nYour top {b}")
+        embed = discord.Embed(description=f"<@{member.id}> has {a} messages since last saturday.\nYour top {b}", title="Messages", color=0xa3a2ff)
         await ctx.send(embed=embed)
 
     @commands.command()
@@ -31,7 +31,7 @@ class messages(commands.Cog):
             a = lb("messages", 20)
         except Exception as e:
             await ctx.send(e)
-        embed = discord.Embed(description=a title="Top messages")
+        embed = discord.Embed(description=a, title="Top messages", colour=0xa3a2ff)
         await ctx.send(embed=embed)
 
         

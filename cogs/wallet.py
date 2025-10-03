@@ -19,10 +19,12 @@ class Wallet(commands.Cog):
             memname = str(member.name)
         money = getuservar("usd", member)
         permlvl = getuservar("permlvl", member)
+        lbspot = "\nRank: " + str(lbspot("usd", member))
+        rep = "\nRep: " + str(getuservar("rep", member))
         permtext = f"\nPermlvl: {permlvl}" if permlvl > 0 else ""
-        embed = discord.Embed(description=f"<@{member}> has {round(money):,} dollars.{permtext}",
+        embed = discord.Embed(description=f"<@{member}> has {round(money):,} dollars.{lbspot}{rep}{permtext}",
                               title=f"{memname}s wallet",
-                              colour=000000)
+                              colour=0x000000)
         await ctx.send(embed=embed)
 
     @commands.command()
