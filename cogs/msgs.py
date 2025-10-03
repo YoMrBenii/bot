@@ -1,73 +1,40 @@
 import discord
-from discord.ext import commands, tasks
-from creds import *
-from google.cloud import firestore
-import asyncio
-import signal
+from discord.ext import commands
+from mongo import *
 
-
-class msgcounting(commands.Cog):
-    def __init__(self, bot, db2):
+class messages(commands.Cog):
+    def __init__(self, bot):
         self.bot = bot
-        self.db2 = db2
-
-        self.auto_flush.start()
-
-        loop = asyncio.get_running_loop()
-        for sig in (signal.SIGTERM, signal.SIGINT):
-            loop.add_signal_handler(sig, lambda s=sig: asyncio.create_task(self._handle_exit(s)))
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
+        notallowedchannels = {1147929783968223233}
         if message.author.bot:
             return
-        self.bot.msgs[message.author.id] += 1
-        if self.bot.msgs[message.author.id] % 100 == 0:
-            await message.channel.send(
-                f"{message.author.name} has reached {self.bot.msgs[message.author.id]} messages."
-            )
-
-    def cog_unload(self):
-        self.flush_to_db_sync()
-        self.auto_flush.cancel()
-
-    async def _handle_exit(self, sig):
-        await self.flush_to_db()
-        await self.bot.close()
-
-    async def flush_to_db(self):
-        if not self.bot.msgs:
+        if message.channel.id in notallowedchannels:
             return
-        batch = self.db2.batch()
-        ref = self.db2.collection("users")
-        for authorid, count in self.bot.msgs.items():
-            doc_ref = ref.document(str(authorid))
-            batch.set(doc_ref, {"messages": firestore.Increment(count)}, merge=True)
-        batch.commit()
-        self.bot.msgs.clear()
-
-    def flush_to_db_sync(self):
-        if not self.bot.msgs:
-            return
-        batch = self.db2.batch()
-        ref = self.db2.collection("users")
-        for authorid, count in self.bot.msgs.items():
-            doc_ref = ref.document(str(authorid))
-            batch.set(doc_ref, {"messages": firestore.Increment(count)}, merge=True)
-        batch.commit()
-        self.bot.msgs.clear()
-
-    @tasks.loop(seconds=1200)
-    async def auto_flush(self):
-        await self.flush_to_db()
+        setuservar("messages", message.author.id, 1)
+        changeuservar("username", message.author.id, message.author.name)
 
     @commands.command()
-    async def msgs(self, ctx, member: discord.Member = None):
-        if member is None:
+    async def messages(self, ctx, member: discord.Member = None):
+        if not member:
             member = ctx.author
-        total = self.bot.msgs[member.id] + getuservar("messages", member.id)
-        await ctx.send(f"{member.name} has {total} messages.")
+        a = getuservar("messages", member.id)
+        b = getlbspot("messages", member.id)
+        embed = discord.Embed(description=f"<@{member.id}> has {a} messages since last saturday.\nYour top {b}", title="Messages", color=0xa3a2ff)
+        await ctx.send(embed=embed)
 
+    @commands.command()
+    async def top(self, ctx):
+        try:
+            a = lb("messages", 20)
+        except Exception as e:
+            await ctx.send(e)
+        embed = discord.Embed(description=a, title="Top messages", colour=0xa3a2ff)
+        await ctx.send(embed=embed)
+
+        
 
 async def setup(bot):
-    await bot.add_cog(msgcounting(bot, bot.db2))
+    await bot.add_cog(messages(bot))
