@@ -8,7 +8,10 @@ class messages(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
+        notallowedchannels = {1147929783968223233}
         if message.author.bot:
+            return
+        if message.channel.id in notallowedchannels:
             return
         setuservar("messages", message.author.id, 1)
         changeuservar("username", message.author.id, message.author.name)
@@ -30,6 +33,7 @@ class messages(commands.Cog):
             await ctx.send(e)
         embed = discord.Embed(description=a)
         await ctx.send(embed=embed)
+
         
 
 async def setup(bot):
