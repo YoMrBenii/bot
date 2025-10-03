@@ -70,7 +70,7 @@ def clanexists(clanname: str):
     else:
         return False
     
-def setuserclan(clan: str, userid: str):
+def setuserclan(clan: str, userid: str) -> str:
     if not clanexists(clan):
         return "Clan does not exist"
     if not userinclan(userid):
