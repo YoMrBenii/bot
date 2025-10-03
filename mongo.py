@@ -39,7 +39,7 @@ def resetuservar(var: str, userid: str):
         upsert=True
     )
 
-def createclan(clanname: str, userid: str):
+def ccreateclan(clanname: str, userid: str):
     clanfind = db.clans.find_one({"_id": clanname})
     if clanfind is not None:
         return "Clan already exists"

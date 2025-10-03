@@ -31,7 +31,7 @@ class clansys(commands.Cog):
         if 2 > len(clan) or len(clan) > 7:
             await ctx.send("The clans name must be between 2 and 6 letters.")
             return
-        b = createclan(clan, ctx.author.id)
+        b = ccreateclan(clan, ctx.author.id)
         print("e")
         await ctx.send(b)
 
