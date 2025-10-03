@@ -24,7 +24,7 @@ def setuservar(var: str, userid: str, amt: int):
 
 def changeuservar(var: str,  userid: str, amt: int):
     userid = str(userid)
-    db.users.update(
+    db.users.update_one(
         {"_id": userid},
         {"$set": {var: amt}},
         upsert=True
