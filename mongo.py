@@ -1,6 +1,8 @@
 import os
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+import discord
+from discord.ext import commands
 
 uri = os.getenv("mongodb")
 client = MongoClient(uri, server_api=ServerApi('1'))
@@ -23,3 +25,54 @@ def getuservar(var: str, userid: str):
         return 0
     val = user.get(var, 0)
     return val
+
+def resetuservar(var: str, userid: str):
+    userid = str(userid)
+    db.users.update_one(
+        {"_id": userid},
+        {"$set": {var: 0}},
+        upsert=True
+    )
+
+def createclan(clanname: str, userid: str):
+    clanfind = db.clans.find_one({"_id": clanname})
+    if clanfind is not None:
+        return "Clan already exists"
+    if userinclan(userid) is not None:
+        return "User is already in a clan"
+    db.clans.update_one(
+        {"_id": clanname},
+        {"$push": {"members": {"userid": userid, "rank": "Owner", "points": 0}}},
+        upsert=True
+    )
+
+def userinclan(userid: str) -> str | None:
+    clanfind = db.clans.find_one({
+        "members.userid": userid},
+        {"_id": 1})
+    
+    if clanfind:
+        return clanfind["_id"]
+    else:
+        return None
+    
+def clanexists(clanname: str):
+    clanfind = db.clans.find_one(
+        {"_id": clanname}
+    )
+    if clanfind:
+        return True
+    else:
+        return False
+    
+def setuserclan(clan: str, userid: str):
+    if not clanexists(clan):
+        return "Clan does not exist"
+    if not userinclan(userid):
+        return "You are already in a clan, leave your old one if you want to join a new one"
+    db.clans.update_one(
+        {"_id": clan},
+        {"$push": {"members": {"userid": userid, "rank": "Member", "points": 0}}},
+        upsert=True
+    )
+    return f"<@{userid}> joined {clan}"

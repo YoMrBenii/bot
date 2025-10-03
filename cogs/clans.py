@@ -1,6 +1,6 @@
 import discord
 from discord.ext import commands
-from creds import find_user_clan, setuserclan, ccreateclan, clanexists, getuservar, setuservar
+from mongo import *
 
 class clansys(commands.Cog):
     def __init__(self, bot):
@@ -12,7 +12,7 @@ class clansys(commands.Cog):
             await ctx.send("Must name the clan you want to join.")
             return
         user = ctx.author
-        result = find_user_clan(ctx.author.id)
+        result = userinclan(ctx.author.id)
         if not clanexists(clan):
             await ctx.send("The clan doesnt exist")
             return
@@ -20,8 +20,8 @@ class clansys(commands.Cog):
             await ctx.send(f"Your already in a clan called {result}")
             return
         else:
-            setuserclan(clan, ctx.author.id)
-            await ctx.send(f"You were added to {clan}.")
+            a = setuserclan(clan, ctx.author.id)
+            await ctx.send(a)
 
     @commands.command()
     async def createclan(self, ctx, clan: str = None):
@@ -31,14 +31,9 @@ class clansys(commands.Cog):
         if 2 > len(clan) or len(clan) > 7:
             await ctx.send("The clans name must be between 2 and 6 letters.")
             return
-        b, c = ccreateclan(clan, ctx.author.id)
+        b = createclan(clan, ctx.author.id)
         print("e")
-        if b is False:
-            await ctx.send(c)
-            return
-        else:
-            print("d")
-            await ctx.send(c)
+        await ctx.send(b)
 
 
 async def setup(bot):

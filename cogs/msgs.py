@@ -38,8 +38,8 @@ class msgcounting(commands.Cog):
     async def flush_to_db(self):
         if not self.bot.msgs:
             return
-        batch = self.db.batch()
-        ref = self.db.collection("users")
+        batch = self.db2.batch()
+        ref = self.db2.collection("users")
         for authorid, count in self.bot.msgs.items():
             doc_ref = ref.document(str(authorid))
             batch.set(doc_ref, {"messages": firestore.Increment(count)}, merge=True)
@@ -49,8 +49,8 @@ class msgcounting(commands.Cog):
     def flush_to_db_sync(self):
         if not self.bot.msgs:
             return
-        batch = self.db.batch()
-        ref = self.db.collection("users")
+        batch = self.db2.batch()
+        ref = self.db2.collection("users")
         for authorid, count in self.bot.msgs.items():
             doc_ref = ref.document(str(authorid))
             batch.set(doc_ref, {"messages": firestore.Increment(count)}, merge=True)
