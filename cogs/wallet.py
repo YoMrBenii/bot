@@ -12,7 +12,7 @@ class Wallet(commands.Cog):
     @commands.command()
     async def wallet(self, ctx, member: discord.Member = None):
         if member is None:
-            member = str(ctx.author.id)
+            member = str(ctx.author)
         memberid = str(member.id)
         memname = member.name
         money = getuservar("usd", memberid)
