@@ -8,24 +8,34 @@ class Wallet(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-        
     @commands.command()
     async def wallet(self, ctx, member: discord.Member = None):
-        if member is None:
-            member = ctx.author
-        memberid = str(member.id)
-        memname = member.name
-        money = getuservar("usd", memberid)
-        if money is None:
-            money = 0
-        permlvl = getuservar("permlvl", memberid)
-        lbspot = "\nRank: " + str(getlbspot("usd", memberid))
-        rep = "\nRep: " + str(getuservar("rep", memberid))
-        permtext = f"\nPermlvl: {permlvl}" if permlvl > 0 else ""
-        embed = discord.Embed(description=f"<@{memberid}> has {round(money):,} dollars.{lbspot}{rep}{permtext}",
-                              title=f"{memname}s wallet",
-                              colour=0x000000)
-        await ctx.send(embed=embed)
+        try:
+            if member is None:
+                member = ctx.author
+            memberid = str(member.id)
+            memname = member.name
+
+            money = getuservar("usd", memberid)
+            if money is None:
+                money = 0
+
+            permlvl = getuservar("permlvl", memberid)
+            lbspot = "\nRank: " + str(getlbspot("usd", memberid))
+            rep = "\nRep: " + str(getuservar("rep", memberid))
+            permtext = f"\nPermlvl: {permlvl}" if permlvl > 0 else ""
+
+            embed = discord.Embed(
+                description=f"<@{memberid}> has {round(money):,} dollars.{lbspot}{rep}{permtext}",
+                title=f"{memname}'s wallet",
+                colour=0x000000
+            )
+
+            await ctx.send(embed=embed)
+
+        except Exception as e:
+            await ctx.send(f"❌ An error occurred: `{e}`")
+            print(f"[WALLET ERROR] {type(e).__name__}: {e}")
 
     @commands.command()
     async def em(self, ctx):
@@ -35,6 +45,5 @@ class Wallet(commands.Cog):
         setuservar("usd", userid, 5)
         await ctx.send("Added 5 USD to your wallet.")
 
-    
 async def setup(bot):
     await bot.add_cog(Wallet(bot))
