@@ -21,7 +21,7 @@ class hire(commands.Cog):
                 await ctx.send("Must ping whoever you want to hire.")
                 return
 
-            if hasrole(member.id, 1032679589648011325):
+            if hasrole(member, 1032679589648011325):
                 await ctx.send("User is already staff.")
                 return
             
