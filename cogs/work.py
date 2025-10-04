@@ -20,5 +20,5 @@ class work(commands.Cog):
         values = {"cleaner": 100, "teacher": 200, "software dev": 300}
         pass
 
-
-
+async def setup(bot):
+    await bot.add_cog(work(bot))
