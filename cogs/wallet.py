@@ -16,6 +16,8 @@ class Wallet(commands.Cog):
         memberid = str(member.id)
         memname = member.name
         money = getuservar("usd", memberid)
+        if money is None:
+            money = 0
         permlvl = getuservar("permlvl", memberid)
         lbspot = "\nRank: " + str(getlbspot("usd", memberid))
         rep = "\nRep: " + str(getuservar("rep", memberid))
