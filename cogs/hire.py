@@ -27,7 +27,7 @@ class hire(commands.Cog):
         changeuservar("hiredate", member.id, int(time.time()))
         changeuservar("hirer", member.id, ctx.author.id)
         embed1 = discord.Embed(title="Hired user", description=f"<@{ctx.author.id}> hired <@{member.id}> at <t:{time.time()}:f>")
-        channel = bot.fetch_channel(1292146574205521970)
+        channel = self.bot.fetch_channel(1292146574205521970)
         embed = discord.Embed(description=f"hired {member.id}")
         await ctx.send(embed=embed)
         await channel.send(embed=embed1)
