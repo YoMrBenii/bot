@@ -18,6 +18,9 @@ class perms(commands.Cog):
         if a < 3:
             await ctx.send("no perms, must have perm level 3.")
             return
+        if member.id == ctx.author.id:
+            await ctx.send("Cant change your own permlvl")
+            return
         changeuservar("permlvl", member.id, amt)
         await ctx.send(f"Gave {member.name} perm level {amt}")
 
