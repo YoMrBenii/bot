@@ -92,7 +92,7 @@ def setuserclan(clan: str, userid: str) -> str:
     return f"<@{userid}> joined {clan}"
 
 def mlb(var: str, amt: int):
-    a = "**Weekly rankings**"
+    a = "**Weekly rankings\n**"
     top = db.users.find().sort(var, -1).limit(amt)
     for rank, user in enumerate(top, start=1):
         username = user.get("username", "Unknown")
