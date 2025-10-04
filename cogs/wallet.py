@@ -22,7 +22,10 @@ class Wallet(commands.Cog):
 
             permlvl = getuservar("permlvl", memberid)
             lbspot = "\nRank: " + str(getlbspot("usd", memberid))
-            rep = "\nRep: " + str(getuservar("rep", memberid))
+            if money > 0:
+                rep = "\nRep: " + str(getuservar("rep", memberid))
+            else:
+                rep = ""
             permtext = f"\nPermlvl: {permlvl}" if permlvl > 0 else ""
 
             embed = discord.Embed(
