@@ -29,16 +29,14 @@ def changeuservar(var: str,  userid: str, amt):
         {"$set": {var: amt}},
         upsert=True
     )
-
 def getuservar(var: str, userid: str):
     users = db["users"]
     userid = str(userid)
     user = users.find_one({"_id": userid})
-    if user is None:
+    if not user:
         return 0
     val = user.get(var, 0)
-    return val
-
+    return 0 if val is None else val
 def resetuservar(var: str, userid: str):
     userid = str(userid)
     db.users.update_one(
@@ -46,7 +44,6 @@ def resetuservar(var: str, userid: str):
         {"$set": {var: 0}},
         upsert=True
     )
-
 def ccreateclan(clanname: str, userid: str):
     clanfind = db.clans.find_one({"_id": clanname})
     if clanfind is not None:
@@ -59,7 +56,6 @@ def ccreateclan(clanname: str, userid: str):
         upsert=True
     )
     return f"You created the clan {clanname}, to view your clan use -clan"
-
 def userinclan(userid: str) -> str | None:
     clanfind = db.clans.find_one({
         "members.userid": userid},
@@ -68,8 +64,7 @@ def userinclan(userid: str) -> str | None:
     if clanfind:
         return clanfind["_id"]
     else:
-        return None
-    
+        return None  
 def clanexists(clanname: str):
     clanfind = db.clans.find_one(
         {"_id": clanname}
@@ -77,8 +72,7 @@ def clanexists(clanname: str):
     if clanfind:
         return True
     else:
-        return False
-    
+        return False   
 def setuserclan(clan: str, userid: str) -> str:
     if not clanexists(clan):
         return "Clan does not exist"
@@ -90,7 +84,6 @@ def setuserclan(clan: str, userid: str) -> str:
         upsert=True
     )
     return f"<@{userid}> joined {clan}"
-
 def mlb(var: str, amt: int):
     a = "**Weekly rankings\n**"
     top = db.users.find().sort(var, -1).limit(amt)
@@ -101,7 +94,6 @@ def mlb(var: str, amt: int):
 
         a += f"#{rank} - {username} - {value}\n"
     return a
-
 def lb(var: str, amt: int):
     a = ""
     top = db.users.find().sort(var, -1).limit(amt)
@@ -112,12 +104,23 @@ def lb(var: str, amt: int):
 
         a += f"#{rank} - {username} - {value}\n"
     return a
-
 def getlbspot(var: str, userid: str):
     userid = str(userid)
-    user = db.users.find_one(
-        {"_id": userid}
+    # Only fetch needed field + _id
+    cursor = db.users.find({}, {"_id": 1, var: 1})
+    # Treat missing/null as 0
+    scores = [(d["_id"], (d.get(var) or 0)) for d in cursor]
+    scores.sort(key=lambda t: t[1], reverse=True)
+    for idx, (uid, _) in enumerate(scores, start=1):
+        if uid == userid:
+            return idx
+    return None  # or 0 / "N/A"
+
+
+def jobupdate(job: str, userid: str, amt: str):
+    userid = str(userid)
+    db.jobs.update_one(
+        {"_id": job},
+        {"$push": {"member": {"userid": userid, "salary": amt}}},
+        upsert=True
     )
-    rank = db.users.count_documents(
-        {var: {"$gt": user[var]}}) + 1
-    return rank
