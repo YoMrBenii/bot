@@ -44,9 +44,6 @@ class betting(commands.Cog):
 
     @commands.command(name="roulette", aliases=["r"])
     async def roulette(self, ctx, amount: str = None, color: str = None):
-        if ctx.channel.id != ALLOWED_CHANNEL_ID and ctx.author.id == OWNER_ID:
-            await ctx.send(f"Use <#{ALLOWED_CHANNEL_ID}>")
-            return
         if amount is None or color is None:
             await ctx.send("Format: r {amount} {red/black}")
             return
