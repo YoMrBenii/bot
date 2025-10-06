@@ -29,3 +29,5 @@ class resets(commands.Cog):
         changeservervar("recordmsgs", record)
         changeservervar("recordholder", user.id)
 
+async def setup(bot):
+    await bot.add_cog(resets(bot))
