@@ -57,13 +57,6 @@ class hire(commands.Cog):
         if member.top_role >= ctx.author.top_role:
             await ctx.send("Cant fire a higher rank.")
             return
-        roles = [1032679589648011325, 1037089161104076921, 1033011680935944332, 1033003792288972871, 1033003598784770208, 1086352084653314110, 1190333493574639636, 1157030550587068466, 1226612154460016761, 1076315417510952960]
-        role = [ctx.guild.get_role(rid) for rid in roles]
-        await member.remove_roles(*role)
-        former = ctx.guild.get_role(1035219870083727471)
-        await member.add_roles(former)
-        changeuservar("hiredate", member.id, None)
-        changeuservar("hirer", member.id, None)
         embed1 = discord.Embed(
             title=f"Fired {member.name}",
             description=f"<@{ctx.author.id}> fired <@{member.id}> at <t:{int(time.time())}:f>", color=0xff4865)
@@ -71,6 +64,14 @@ class hire(commands.Cog):
         embed = discord.Embed(description=f"Fired <@{member.id}>.")
         await ctx.send(embed=embed)
         await channel.send(embed=embed1)
+        roles = [1032679589648011325, 1037089161104076921, 1033011680935944332, 1033003792288972871, 1033003598784770208, 1086352084653314110, 1190333493574639636, 1157030550587068466, 1226612154460016761, 1076315417510952960]
+        role = [ctx.guild.get_role(rid) for rid in roles]
+        await member.remove_roles(*role)
+        former = ctx.guild.get_role(1035219870083727471)
+        await member.add_roles(former)
+        changeuservar("hiredate", member.id, None)
+        changeuservar("hirer", member.id, None)
+        
 
     @commands.command(name="pass")
     async def _pass(self, ctx, member: discord.Member = None):
