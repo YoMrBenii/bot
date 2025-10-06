@@ -76,8 +76,13 @@ class hire(commands.Cog):
     async def _pass(self, ctx, member: discord.Member = None):
         if not member:
             await ctx.send("Must ping a user.")
+            return
         if not hasrole(member, 1032679589648011325):
             await ctx.send("User must be a staff member.")
+            return
+        if not hasrole(member, 1037089161104076921):
+            await ctx.send("User is not a helper.")
+            return
         changeuservar("passdate", member.id, int(time.time()))
         embed1 = discord.Embed(
             title=f"Passed {member.name}",
@@ -85,7 +90,7 @@ class hire(commands.Cog):
             color=0x28498b)
         channel = await self.bot.fetch_channel(1292146574205521970)
         await channel.send(embed=embed1)
-        embed = discord.Embed(description=f"Fired <@{member.id}>.")
+        embed = discord.Embed(description=f"Passed <@{member.id}>.")
         await ctx.send(embed=embed)
         helper = ctx.guild.get_role(1037089161104076921)
         mod = ctx.guild.get_role(1033011680935944332)
