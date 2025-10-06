@@ -85,7 +85,7 @@ class hire(commands.Cog):
             color=0x28498b)
         channel = await self.bot.fetch_channel(1292146574205521970)
         await channel.send(embed=embed1)
-        embed = discord.Embed(description="Fired <@{member.id}>.")
+        embed = discord.Embed(description=f"Fired <@{member.id}>.")
         await ctx.send(embed=embed)
         helper = ctx.guild.get_role(1037089161104076921)
         mod = ctx.guild.get_role(1033011680935944332)
