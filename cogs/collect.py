@@ -15,7 +15,7 @@ class collect(commands.Cog):
         amount = len(roles)
         mamount = amount*5
         setuservar("usd", member.id, mamount)
-        embed = discord.Embed(description=f"<@{member.id}> collected {mamount} from their {amount} roles.",
+        embed = discord.Embed(description=f"<@{member.id}> collected ${mamount} from their {amount} roles.",
                               title="Role Collection",
                               colour=000000)
         await ctx.send(embed=embed)
