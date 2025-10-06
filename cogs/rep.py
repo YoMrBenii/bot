@@ -6,6 +6,7 @@ class reps(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @commands.cooldown(1, 86400, commands.BucketType.user)
     async def rep(self, ctx, member: discord.Member = None):
         if member is None:
             await ctx.send("Must ping somebody")

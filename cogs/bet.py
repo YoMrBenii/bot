@@ -24,8 +24,8 @@ class betting(commands.Cog):
             await ctx.send("Must be a valid number")
             return
         num = int(num)
-        if num < 1 or num >= 100000:
-            await ctx.send("Cant bet with more than 100,000 or less than 1.")
+        if num < 1 or num >= 20000:
+            await ctx.send("Cant bet with more than 20,000 or less than 1.")
             return
         a = getuservar("usd", ctx.author.id)
         if num > a:
@@ -54,8 +54,8 @@ class betting(commands.Cog):
         if amt <= 1:
             await ctx.send("Must be more than 1$")
             return
-        if amt > 200_000:
-            await ctx.send("Cant bet more than 200k")
+        if amt > 20000:
+            await ctx.send("Cant bet more than 20k")
             return
         val = color.lower()
         if val not in ("red", "black"):

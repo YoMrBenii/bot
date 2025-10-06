@@ -1,2 +1,5 @@
 cogs/mine.py
 .history/
+cogs/block.py
+cogs/inactivity.py
+cogs/work.py

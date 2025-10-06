@@ -16,18 +16,16 @@ class Hi(commands.Cog):
     
     @commands.command()
     async def getid(self, ctx, user: discord.User):
-        await ctx.send(f"The ID of {user.name} is {user.id}")
+        await ctx.send(user.id)
     
     @commands.command()
     async def rolemems(self, ctx, *, role_name: str):
-        # Case-insensitive role lookup
         role = discord.utils.find(lambda r: r.name.lower() == role_name.lower(), ctx.guild.roles)
 
         if role is None:
             await ctx.send(f"Role `{role_name}` not found.")
             return
 
-        # List of member names with the role
         members_with_role = [member.name for member in ctx.guild.members if role in member.roles]
 
         if members_with_role:

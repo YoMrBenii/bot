@@ -1,6 +1,7 @@
 import discord
 from discord.ext import commands
 from mongo import *
+from functions import *
 
 class clansys(commands.Cog):
     def __init__(self, bot):
@@ -8,6 +9,8 @@ class clansys(commands.Cog):
 
     @commands.command()
     async def joinclan(self, ctx, clan: str = None):
+        if not owneronly:
+            return
         if clan is None:
             await ctx.send("Must name the clan you want to join.")
             return
@@ -25,6 +28,8 @@ class clansys(commands.Cog):
 
     @commands.command()
     async def createclan(self, ctx, clan: str = None):
+        if not owneronly:
+            return
         if clan is None:
             await ctx.send("Must mention what the clan name is.")
             return
