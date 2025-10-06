@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands
 from random import *
-from creds import *
+from mongo import *
 
 ALLOWED_CHANNEL_ID = 1108669778383613952
 OWNER_ID = 1118218807694065684
