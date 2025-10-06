@@ -106,15 +106,13 @@ def lb(var: str, amt: int):
     return a
 def getlbspot(var: str, userid: str):
     userid = str(userid)
-    # Only fetch needed field + _id
     cursor = db.users.find({}, {"_id": 1, var: 1})
-    # Treat missing/null as 0
     scores = [(d["_id"], (d.get(var) or 0)) for d in cursor]
     scores.sort(key=lambda t: t[1], reverse=True)
     for idx, (uid, _) in enumerate(scores, start=1):
         if uid == userid:
             return idx
-    return None  # or 0 / "N/A"
+    return 0
 
 
 def jobupdate(job: str, userid: str, amt: str):
@@ -124,3 +122,7 @@ def jobupdate(job: str, userid: str, amt: str):
         {"$push": {"member": {"userid": userid, "salary": amt}}},
         upsert=True
     )
+
+def ping_db() -> bool:
+    client.admin.command("ping")
+    return True

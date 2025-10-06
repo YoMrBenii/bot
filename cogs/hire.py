@@ -30,7 +30,7 @@ class hire(commands.Cog):
         changeuservar("hiredate", member.id, int(time.time()))
         changeuservar("hirer", member.id, ctx.author.id)
         embed1 = discord.Embed(
-            title="Hired user",
+            title=f"Hired {member.name}",
             description=f"<@{ctx.author.id}> hired <@{member.id}> at <t:{int(time.time())}:f>", color=0x369876)
         channel = await self.bot.fetch_channel(1292146574205521970)
         embed = discord.Embed(description=f"Hired <@{member.id}>.")
@@ -41,7 +41,8 @@ class hire(commands.Cog):
     @commands.command()
     async def fire(self, ctx, member: discord.Member = None):
         a = getuservar("permlvl", ctx.author.id)
-        if a < 2 or (a == 2 and not hasrole(member, 1037089161104076921)):
+        helperrole = ctx.guild.get_role(1037089161104076921)
+        if a < 2 or (a == 2 and helperrole.position <= member.top_role):
             await ctx.send("Must have perm level 2 or 3. Permlvl 2 can only fire helpers.")
             return
         if not member:
@@ -64,15 +65,40 @@ class hire(commands.Cog):
         changeuservar("hiredate", member.id, None)
         changeuservar("hirer", member.id, None)
         embed1 = discord.Embed(
-            title="Fired user",
+            title=f"Fired {member.name}",
             description=f"<@{ctx.author.id}> fired <@{member.id}> at <t:{int(time.time())}:f>", color=0xff4865)
         channel = await self.bot.fetch_channel(1292146574205521970)
         embed = discord.Embed(description=f"Fired <@{member.id}>.")
         await ctx.send(embed=embed)
         await channel.send(embed=embed1)
 
+    @commands.command(name="pass")
+    async def _pass(self, ctx, member: discord.Member = None):
+        if not member:
+            await ctx.send("Must ping a user.")
+        if not hasrole(member, 1032679589648011325):
+            await ctx.send("User must be a staff member.")
+        changeuservar("passdate", member.id, int(time.time()))
+        embed1 = discord.Embed(
+            title=f"Passed {member.name}",
+            description=f"<@{ctx.author.id}> passed <@{member.id}> at <t:{int(time.time())}:f>",
+            color=0x28498b)
+        channel = await self.bot.fetch_channel(1292146574205521970)
+        await channel.send(embed=embed1)
+        embed = discord.Embed(description="Fired <@{member.id}>.")
+        await ctx.send(embed=embed)
+        helper = ctx.guild.get_role(1037089161104076921)
+        mod = ctx.guild.get_role(1033011680935944332)
+        await member.add_roles(mod)
+        await member.remove_roles(helper)
+        
+                               
+        
+
+
 
 
 async def setup(bot):
     await bot.add_cog(hire(bot))
+
 
