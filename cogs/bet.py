@@ -3,6 +3,14 @@ from discord.ext import commands
 from random import *
 from creds import *
 
+ALLOWED_CHANNEL_ID = 1108669778383613952
+OWNER_ID = 1118218807694065684
+
+BLACK_HEX = 0x000001
+RED_HEX = 0xED004C
+EMOJI_BLACK = "<a:BlackArrow:1380680364242243616>"
+EMOJI_RED = "<a:0_arrowww:1380680635815034940>"
+
 class betting(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -34,7 +42,57 @@ class betting(commands.Cog):
         else:
             await ctx.send(f"You lost {transaction}\n Your balance is now {b}")
 
-
+    @commands.command(name="roulette", aliases=["r"])
+    async def roulette(self, ctx, amount: str = None, color: str = None):
+        if ctx.channel.id != ALLOWED_CHANNEL_ID and ctx.author.id == OWNER_ID:
+            await ctx.send(f"Use <#{ALLOWED_CHANNEL_ID}>")
+            return
+        if amount is None or color is None:
+            await ctx.send("Format: r {amount} {red/black}")
+            return
+        if not amount.isdigit():
+            await ctx.send("Format: r {amount} {red/black}")
+            return
+        amt = int(amount)
+        if amt <= 1:
+            await ctx.send("Must be more than 1$")
+            return
+        if amt > 200_000:
+            await ctx.send("Cant bet more than 200k")
+            return
+        val = color.lower()
+        if val not in ("red", "black"):
+            await ctx.send("Format: r {amount} {red/black}")
+            return
+        uid = str(ctx.author.id)
+        balance = getuservar("usd", uid) or 0
+        if amt > balance:
+            await ctx.send("You cant bet with more than you have")
+            return
+        chance = random.randint(1, 2)
+        if chance == 1:
+            landed = val
+            win = True
+        else:
+            landed = "red" if val == "black" else "black"
+            win = False
+        landed_emoji = EMOJI_BLACK if landed == "black" else EMOJI_RED
+        landed_hex = BLACK_HEX if landed == "black" else RED_HEX
+        if win:
+            desc = (
+                f"{landed_emoji} The ball landed on {landed}!\n"
+                f"{landed_emoji} YOU WIN ${amt:,}!!"
+            )
+            setuservar("usd", uid, amt)
+        else:
+            desc = (
+                f"{landed_emoji} The ball landed on {'red' if landed == 'red' else 'black'}!\n"
+                f"{landed_emoji} You lost your ${amt:,}"
+            )
+            setuservar("usd", uid, -amt)
+        embed = discord.Embed(title="Roulette", description=desc, colour=landed_hex)
+        embed.set_footer(text="You either get the money you betted with or lose it all.")
+        await ctx.send(embed=embed)
 
 
 async def setup(bot):
