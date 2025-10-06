@@ -27,8 +27,9 @@ class messages(commands.Cog):
 
     @commands.command()
     async def top(self, ctx):
+        user = await ctx.guild.fetch_member(getservervar("recordholder"))
         a = mlb("messages", 20)
-        b = f"**Record: {getservervar("recordholder")} - {getservervar("recordmsgs")}\n\n"
+        b = f"**Record: {user.name} - {getservervar("recordmsgs")}\n\n"
         embed = discord.Embed(description=b + a, title="Top messages", colour=0xa3a2ff)
         await ctx.send(embed=embed)
 
