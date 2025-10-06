@@ -13,7 +13,8 @@ class onStart(commands.Cog):
 	@commands.command()
 	async def cmds(self, ctx):
 		commands_list = [cmd.name for cmd in self.bot.commands]
-		await ctx.send(", ".join(commands_list))
+		embed = discord.Embed(description=", ".join(commands_list), title="Commands")
+		await ctx.send(embed=embed)
 		
 async def setup(bot):
 	await bot.add_cog(onStart(bot))
