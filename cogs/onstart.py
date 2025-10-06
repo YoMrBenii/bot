@@ -9,6 +9,11 @@ class onStart(commands.Cog):
 	async def on_ready(self):
 		a = self.bot.get_channel(1147929783968223233)
 		await a.send("Bot online")
+
+	@commands.command()
+	async def cmds(self, ctx):
+		commands_list = [cmd.name for cmd in self.bot.commands]
+		await ctx.send(", ".join(commands_list))
 		
 async def setup(bot):
 	await bot.add_cog(onStart(bot))
