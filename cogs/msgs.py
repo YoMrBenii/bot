@@ -17,7 +17,7 @@ class messages(commands.Cog):
         changeuservar("username", message.author.id, message.author.name)
 
     @commands.command()
-    async def messages(self, ctx, member: discord.Member = None):
+    async def msgs(self, ctx, member: discord.Member = None):
         if not member:
             member = ctx.author
         a = getuservar("messages", member.id)
@@ -28,7 +28,8 @@ class messages(commands.Cog):
     @commands.command()
     async def top(self, ctx):
         a = mlb("messages", 20)
-        embed = discord.Embed(description=a, title="Top messages", colour=0xa3a2ff)
+        b = f"**Record: {getservervar("recordholder")} - {getservervar("recordmsgs")}\n\n"
+        embed = discord.Embed(description=b + a, title="Top messages", colour=0xa3a2ff)
         await ctx.send(embed=embed)
 
         

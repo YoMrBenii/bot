@@ -9,7 +9,7 @@ class clansys(commands.Cog):
 
     @commands.command()
     async def joinclan(self, ctx, clan: str = None):
-        if not owneronly:
+        if not owneronly(ctx.author):
             return
         if clan is None:
             await ctx.send("Must name the clan you want to join.")
@@ -28,7 +28,7 @@ class clansys(commands.Cog):
 
     @commands.command()
     async def createclan(self, ctx, clan: str = None):
-        if not owneronly:
+        if not owneronly(ctx.author):
             return
         if clan is None:
             await ctx.send("Must mention what the clan name is.")

@@ -21,7 +21,6 @@ def setuservar(var: str, userid: str, amt: int):
         {"$inc": {var: amt}},
         upsert=True
     )
-
 def changeuservar(var: str,  userid: str, amt):
     userid = str(userid)
     db.users.update_one(
@@ -113,8 +112,6 @@ def getlbspot(var: str, userid: str):
         if uid == userid:
             return idx
     return 0
-
-
 def jobupdate(job: str, userid: str, amt: str):
     userid = str(userid)
     db.jobs.update_one(
@@ -122,7 +119,47 @@ def jobupdate(job: str, userid: str, amt: str):
         {"$push": {"member": {"userid": userid, "salary": amt}}},
         upsert=True
     )
-
 def ping_db() -> bool:
     client.admin.command("ping")
     return True
+def resetallusers(var: str):
+    db.users.update_many(
+        {},
+        {"$set": {var: 0}}
+    )
+
+def top1lb(var: str):
+    id = ""
+    top = db.users.find().sort(var, -1).limit(1)
+    for user in enumerate(top, start=1):
+        id = user.get("_id", "Unknown")  
+    return id
+
+def top1lbvalue(var: str):
+    value = ""
+    top = db.users.find().sort(var, -1).limit(1)
+    for user in enumerate(top, start=1):
+        value = user.get(var, "Unknown")  
+    return value
+def setservervar(var: str, amt: str):
+    db.server.update_one(
+        {"_id": "pvp"},
+        {"$inc": {var: amt}},
+        upsert=True
+    )
+
+def changeservervar(var: str, amt):
+    db.server.update_one(
+        {"_id": "pvp"},
+        {"$set": {var: amt}},
+        upsert=True
+    )
+
+def getservervar(var: str):
+    a = db.server.find_one(
+        {"_id": "pvp"}
+    )
+    if a is None:
+        return 0
+    b = a.get(var, 0)
+    return b
