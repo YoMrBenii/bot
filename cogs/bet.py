@@ -66,7 +66,7 @@ class betting(commands.Cog):
         if amt > balance:
             await ctx.send("You cant bet with more than you have")
             return
-        chance = random.randint(1, 2)
+        chance = randint(1, 2)
         if chance == 1:
             landed = val
             win = True
