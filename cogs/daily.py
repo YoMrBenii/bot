@@ -10,3 +10,6 @@ class daily(commands.Cog):
     async def daily(self, ctx):
         time = getuservar("lastdaily", ctx.author.id)
         await ctx.send(time)
+
+async def setup(bot):
+    await bot.add_cog(daily(bot))
