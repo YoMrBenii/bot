@@ -44,6 +44,8 @@ class Hi(commands.Cog):
         b = random.choice(a)
         mentioned_user = ctx.message.mentions[0]
         await ctx.send(f" {ctx.author.mention} kissed {mentioned_user.mention} \n{b} ")
+        
+        
      
 async def setup(bot):
     await bot.add_cog(Hi(bot))

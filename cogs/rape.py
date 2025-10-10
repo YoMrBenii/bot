@@ -12,7 +12,7 @@ class rap(commands.Cog):
         if member is None:
             await ctx.send("ping the user you want to rape by pinging them")
             return
-        a = ["ha that was fun", "i love raping men"]
+        a = ["ha that was fun", "i love raping men", "Huh, mustve been the wind", "oops accident", ""]
         b = choice(a)
         await ctx.send(f"someone raped {member.mention}\n{b}")
         
