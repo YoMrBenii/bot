@@ -129,18 +129,17 @@ def resetallusers(var: str):
     )
 
 def top1lb(var: str):
-    id = ""
     top = db.users.find().sort(var, -1).limit(1)
-    for user in enumerate(top, start=1):
-        id = user.get("_id", "Unknown")  
-    return id
+    for user in top:
+        return user.get("_id", "Unknown")
+    return "Unknown"
 
 def top1lbvalue(var: str):
-    value = ""
     top = db.users.find().sort(var, -1).limit(1)
-    for user in enumerate(top, start=1):
-        value = user.get(var, "Unknown")  
-    return value
+    for user in top:
+        return user.get(var, "Unknown")
+    return "Unknown"
+
 def setservervar(var: str, amt: str):
     db.server.update_one(
         {"_id": "pvp"},
@@ -163,3 +162,4 @@ def getservervar(var: str):
         return 0
     b = a.get(var, 0)
     return b
+ 
