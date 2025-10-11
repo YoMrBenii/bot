@@ -51,15 +51,16 @@ class messages(commands.Cog):
 
     @commands.command()
     async def remainingmsgs(self, ctx, member: discord.Member = None):
-        if not owneronly(member):
+        if member == None:
+            member = ctx.author
+        if owneronly(member):
             await ctx.send("Beni only")
             return
         if not member:
             member = ctx.author
-        a = getuservar("messages", member.id)
-        b = getlbspot("messages", member.id)
+        a = getuservar("remainingmsgs", member.id)
         embed = discord.Embed(
-            description=f"<@{member.id}> has {a} remaining messages since last saturday.\nYour top {b}",
+            description=f"<@{member.id}> has {a} remaining messages since last saturday.",
             title="Messages",
             color=0xa3a2ff
         )
