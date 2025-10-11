@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import time
 from mongo import *
+from functions import *
 
 class messages(commands.Cog):
     def __init__(self, bot):
@@ -47,6 +48,23 @@ class messages(commands.Cog):
         b = f"**Record: <@{getservervar('recordholder')}> - {getservervar('recordmsgs')}**\n\n"
         embed = discord.Embed(description=b + a, title="Top messages", colour=0xa3a2ff)
         await ctx.send(embed=embed)
+
+    @commands.command()
+    async def remainingmsgs(self, ctx, member: discord.Member = None):
+        if not owneronly(member):
+            await ctx.send("Beni only")
+            return
+        if not member:
+            member = ctx.author
+        a = getuservar("messages", member.id)
+        b = getlbspot("messages", member.id)
+        embed = discord.Embed(
+            description=f"<@{member.id}> has {a} remaining messages since last saturday.\nYour top {b}",
+            title="Messages",
+            color=0xa3a2ff
+        )
+        await ctx.send(embed=embed)
+
 
 async def setup(bot):
     await bot.add_cog(messages(bot))
