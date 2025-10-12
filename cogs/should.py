@@ -16,3 +16,5 @@ class should(commands.Cog):
         await ctx.send(text)
 
 
+async def setup(bot):
+    await bot.add_cog(should(bot))
