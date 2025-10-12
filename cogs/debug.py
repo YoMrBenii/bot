@@ -27,8 +27,6 @@ class Core(commands.Cog):
 
     @commands.Cog.listener()
     async def on_command_error(self, ctx: commands.Context, error: Exception):
-        if ctx.author != 1118218807694065684:
-            return
         await ctx.reply(f"Error: `{type(error).__name__}` - {str(error)[:180]}")
         print("COMMAND ERROR:", ctx.command, repr(error))
 
