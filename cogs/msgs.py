@@ -51,9 +51,7 @@ class messages(commands.Cog):
 
     @commands.command()
     async def remainingmsgs(self, ctx, member: discord.Member = None):
-        if member == None:
-            member = ctx.author
-        if not owneronly(member):
+        if not owneronly(ctx.author):
             await ctx.send("Beni only")
             return
         if not member:
