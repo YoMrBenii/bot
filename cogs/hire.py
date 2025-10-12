@@ -44,7 +44,7 @@ class hire(commands.Cog):
         a = getuservar("permlvl", ctx.author.id)
         helperrole = ctx.guild.get_role(1037089161104076921)
         try:
-            if a < 2 or (a == 2 and helperrole.position <= member.top_role.position):
+            if a < 2 or (a == 2 and helperrole.position >= member.top_role.position):
                 await ctx.send("Must have perm level 2 or 3. Permlvl 2 can only fire helpers.")
                 return
         except Exception as e:
