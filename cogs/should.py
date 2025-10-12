@@ -24,3 +24,6 @@ class ShouldResponder(commands.Cog):
 
         text = choice(texts)
         await message.channel.send(text)
+
+async def setup(bot):
+    await bot.add_cog(ShouldResponder(bot))
