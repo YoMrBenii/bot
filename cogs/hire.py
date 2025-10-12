@@ -1,3 +1,4 @@
+from sys import exception
 import discord
 from discord.ext import commands
 from mongo import *
@@ -42,9 +43,12 @@ class hire(commands.Cog):
     async def fire(self, ctx, member: discord.Member = None):
         a = getuservar("permlvl", ctx.author.id)
         helperrole = ctx.guild.get_role(1037089161104076921)
-        if a < 2 or (a == 2 and helperrole.position <= member.top_role):
-            await ctx.send("Must have perm level 2 or 3. Permlvl 2 can only fire helpers.")
-            return
+        try:
+            if a < 2 or (a == 2 and helperrole.position <= member.top_role):
+                await ctx.send("Must have perm level 2 or 3. Permlvl 2 can only fire helpers.")
+                return
+        except Exception as e:
+            await ctx.send(e)
         if not member:
             await ctx.send("Must ping whoever you want to fire.")
             return
