@@ -12,7 +12,7 @@ class messages(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        notallowedchannels = {1198228961000423486}
+        notallowedchannels = {1198228961000423486, 1108669778383613952, 1297351556127133779}
         if message.author.bot:
             return
         if message.channel.id in notallowedchannels:
@@ -21,7 +21,7 @@ class messages(commands.Cog):
         now = time.time()
         timestamps = self.user_timestamps.get(user_id, [])
         timestamps = [t for t in timestamps if now - t < 60]
-        if len(timestamps) >= 15:
+        if len(timestamps) >= 12:
             self.user_timestamps[user_id] = timestamps
             setuservar("remainingmsgs", user_id, 1)
             return
