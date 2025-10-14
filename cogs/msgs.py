@@ -11,7 +11,7 @@ class messages(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message: discord.Message):
-        notallowedchannels = {1198228961000423486, 1108669778383613952}
+        notallowedchannels = {1198228961000423486, 1108669778383613952, 1297351556127133779}
         if message.author.bot:
             return
         if message.channel.id in notallowedchannels:
