@@ -21,7 +21,7 @@ class messages(commands.Cog):
         now = time.time()
         timestamps = self.user_timestamps.get(user_id, [])
         timestamps = [t for t in timestamps if now - t < 60]
-        if len(timestamps) >= 12:
+        if len(timestamps) >= 15:
             self.user_timestamps[user_id] = timestamps
             setuservar("remainingmsgs", user_id, 1)
             return
